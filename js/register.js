@@ -47,50 +47,51 @@ closeInputFind.addEventListener('blur', () => {
     closeInputFind.classList.add('hidden')
 });
 
-// register
-// lay tag cho cac o input can nhap va click button
-const inputEmail = document.getElementById('input-email-re');
-const inputPassword = document.getElementById('input-password-re');
-const inputConfirmPassword = document.getElementById('input-confirm-password');
+/// click vao nut dang ky 
+
+const inputEmail = document.querySelector('#input-email-re');
+const inputPassword = document.querySelector('#input-password-re');
+const inputConfirmPassword = document.querySelector('#input-confirm-password');
 const buttonRegister = document.querySelector('.Button-register');
+
 const loadUser = localStorage.getItem('user');
 let user = [];
-if(loadUser !== null) {
+if( loadUser !== null) {
     user = JSON.parse(loadUser)
 }
-buttonRegister.addEventListener('click' ,(even) => {
-    // even.preventDefault(); 
-    even.preventDefault();
+buttonRegister.addEventListener('click' ,(event) => {
+    event.preventDefault();
     const email = inputEmail.value.trim();
     const password = inputPassword.value.trim();
     const confirmPassword = inputConfirmPassword.value.trim();
-    if( email === '' || password === '' || confirmPassword === ''){
-        alert('Không được bỏ trống');
+    if(email === '' || password === '' || confirmPassword === ''){
+        alert('khong duoc bo trong');
         return ;
     }
+    // check coi email nay da dang ky chua
+    const target = user.find(item => {
+        return item.email === email ;
+    })
+    if( target) {
+        alert( 'Email nay da duoc du dung ')
+        return ;
+    }
+
+    // check xem mat khau nhat xac nhan lai co trung nhau khong 
     if( password !== confirmPassword) {
-        alert('Nhập mật khâu không trùng khớp');
-        return ;
-    }
-    const target = user.find( item => {
-        return item.email === email
-    });
-    if(target) {
-        alert('Email này đã được sử dụng');
+        alert('Mat khau khong trung khop');
         return ;
     }
     if(password.length < 6){
-        alert('Mât khẩu phải có 6 kí tự trở lên');
+        alert('mat khua phai tren 6 so')
         return ;
     }
-    
-     
     user.push({
         email : email ,
-        password : password,
+        password : password ,
     })
-    localStorage.setItem('user',JSON.stringify(user));
+    localStorage.setItem('user' ,JSON.stringify(user));
+    alert('dang ky thanh cong')
+    window.location.href ='login.html'
 
-    alert('Đăng ký thành công')
-    window.location.href = 'login.html'
 })

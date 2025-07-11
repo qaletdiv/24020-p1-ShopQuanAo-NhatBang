@@ -48,61 +48,36 @@ closeInputFind.addEventListener('blur', () => {
 });
 
 
-/// xac nhan da dang nhap chua de them vao gio hang 
-
-// const buttonAdToCart = document.querySelector('.button-detail');
-// buttonAdToCart.addEventListener('click' ,() => {
-//   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-//   if(!currentUser || !currentUser.isLogin){
-//     alert('vui lòng đăng nhập trước khi thêm sản phẩm')
-//     window.location.href = 'login.html'
-//     return 
-//   }
-
-//   alert('Thêm vào giỏ hàng thành công')
-// });
-
-
-
-// click san pham de den trang peoducts-detial
-
+// lay du lieu cho trang product-detail 
 const params = new URLSearchParams(window.location.search);
-console.log(params)
 
-// lay id san pham ra 
-const productId = params.get('id')
-// console.log(productId)
-
-// tu id toi se lay duoc mang ma toi can tim 
+const productID = params.get('id');
 
 const productDetail = products.find(item => {
-  return Number(item.id) === Number(productId)
-})
-// console.log(productDetail)
-
+  return Number(item.id) === Number(productID)
+});
+// console.log(productDetail);
 if (productDetail) {
-  const sectionDetail = document.querySelector('.detail-main');
-  const optionSizes = productDetail.sizes.map(item => {
-    return ` <option value="${item}">Size ${item}</option>`
-  }).join('')
-  let priceHtml = '';
-  if (productDetail.priceSale) {
-    priceHtml = `<p class="price-detail">${productDetail.priceSale.toLocaleString('vi-VN')} VND</p>`;
-  } else if (productDetail.price) {
-    priceHtml = `<p class="price-detail">${productDetail.price.toLocaleString('vi-VN')} VND</p>`;
+  const detailMain = document.querySelector('.detail-main');
+  const sizeHTML = productDetail.sizes.map(item => {
+    return `<option value="${item}">Size ${item}</option>`
+  })
+  let priceHTML = `<p class="price-detail">${productDetail.price.toLocaleString('vi-VN')} VND</p>`;
+  if (productDetail.priceSale < productDetail.price ) {
+    priceHTML = `<p class="price-detail">${productDetail.priceSale  .toLocaleString('vi-VN')} VND</p>`;
   }
 
-  sectionDetail.innerHTML = `
+  detailMain.innerHTML = `
             <div class="img-detail">
                 <img src="${productDetail.imageURL}" alt="">
                 <div class="product_overlay_detail"></div>
             </div>
             <div class="content-product">
                 <p class="name-detail">${productDetail.name}</p>
-                ${priceHtml}
+                ${priceHTML}
                 <div class="size-detail-drop">
                     <select name="" id="select-drop-size">
-                       ${optionSizes}
+                        ${sizeHTML}
                     </select>
                 </div>
                 <p class="thanh-chan"></p>
@@ -121,83 +96,80 @@ if (productDetail) {
                     </ul>
                 </div>
             </div>
-  `
+`
 }
+// lam click tang them san pham
+const inputPlus = document.querySelector('.plus');
+const quantityDetail = document.getElementById('quantity-detail');
+let quantity = 1
+inputPlus.addEventListener('click', () => {
+  quantity++;
+  quantityDetail.value = quantity;
+});
 
-const spanMinus = document.querySelector('.minus');
-const spanPlus = document.querySelector('.plus');
-const quantityDetail = document.getElementById('quantity-detail')
-let quantity = 1;
-
-// tru san pham
-spanMinus.addEventListener('click', () => {
+// lam click giam san pham 
+const inputMinus = document.querySelector('.minus');
+inputMinus.addEventListener('click', () => {
   if (quantity > 1) {
     quantity--;
     quantityDetail.value = quantity;
   }
 })
 
-// cong them san pham 
-spanPlus.addEventListener('click', () => {
-  quantity++;
-  quantityDetail.value = quantity;
+// lay nhung san pham tuong tu va khong lay san pham da vo trang chi tiet 
+const sameProduct = products.filter(item => {
+  return item.categoryName === productDetail.categoryName && Number(item.id) !== Number(productID);
 })
-const productShirtSame = document.querySelector('.product-shirt-main-same');
-const currentDislay = 3;
-
-// san pham tuong tu chi lay nhung san pham con lai khong lay san pham da co trong trang produtsDetail
-
-
-const sameProducts = products.filter(item => {
-  return item.categoryName === productDetail.categoryName && Number(item.id) !== Number(productId)
-})
-// console.log(sameProducts)
-
-function renderProduct(container, start, end) {
-  const showProduct = sameProducts.slice(start, end);
+//
+// so san pham se duoc suat hien vd nhu 3 san pham 
+const currentProduct = 3
+const productShirtSame = document.querySelector('.product-shirt-main-same')
+function renderProduct(continer, start, end) {
+  const showProduct = sameProduct.slice(start, end);
   showProduct.forEach(item => {
-    const divEl = document.createElement('div')
-    divEl.classList.add('product-main')
-    let saleHTML = '';
-    if (item.tags) {
-      if (item.tags[1] === ('sale 30%')) {
-        saleHTML = `<div class="sale">${item.tags[1]}</div>`
-      }
-      else if (item.tags[1] === ('sale 40%')) {
-        saleHTML = `<div class="sale">${item.tags[1]}</div>`
-      }
-    }
-    let priceHTML = `<p>${item.price.toLocaleString('vi-VN')}</p>`
+    const divEl = document.createElement('product-main');
+
+    // phan biet gia ban va giam gia
+    let priceHTML = `<p>${item.price.toLocaleString('vi-VN')}đ</p>`;
     if (item.priceSale < item.price) {
       priceHTML = `
-          <p>${item.priceSale.toLocaleString('vi-VN')}</p>
-          <p class="sale-m">${item.price.toLocaleString('vi-VN')}</p>
-      `
+      <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
+      <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
+        `
     }
-
-
+    // phan biet san pham nay co sale hay ko sale 
+    let saleHTML = '';
+    if (item.tags) {
+      if (item.tags && item.tags.includes('sale 30%')) {
+        saleHTML = `<div class="sale">sale 30%</div>`
+      }
+      else if (item.tags && item.tags.includes('sale 40%')) {
+        saleHTML = `<div class="sale">sale 40%</div>`
+      }
+    }
+    /// 
     divEl.innerHTML = `
-      <div class="img_hidden">
-          <a href="product-detail.html?id=${item.id}" class="img_box">
-              <img src="${item.imageURL}" alt="shirt1" />
-              <div class="product_overlay"></div>
-              ${saleHTML}
-          </a>
-      </div>
-      <a href="" class="product_name">${item.name}</a>
-      <div class="money_sale">
-         ${priceHTML}
-       </div>    
-    
+        <div class="img_hidden">
+            <a href="product-detail.html?id=${item.id}" class="img_box">
+                <img src="${item.imageURL}" alt="shirt1" />
+                <div class="product_overlay"></div>
+                ${saleHTML}
+            </a>
+        </div>
+            <a href="product-detail.html?id=${item.id}" class="product_name">${item.name}</a>
+                <div class="money_sale">
+                  ${priceHTML}
+        </div>  
     `
-    container.appendChild(divEl);
-  });
+    continer.appendChild(divEl)
+  })
 }
-renderProduct(productShirtSame, 0, currentDislay)
-
-const buttonLoad = document.querySelector('#load-more-btn');
-buttonLoad.addEventListener('click' ,() => {
-  renderProduct(productShirtSame,currentDislay,sameProducts.length)
+renderProduct(productShirtSame, 0, currentProduct)
+// click hien xem the,
+const loadMoreBtn = document.querySelector('#load-more-btn');
+loadMoreBtn.addEventListener('click' ,() => {
+  renderProduct(productShirtSame,currentProduct,sameProduct.length)
+  loadMoreBtn.classList.add('hidden');
 })
 // khi mìn add to cart thi phải kiểm tra xem đã đăng nhập chưa , nếu chưa thì qua trang đăng nhâp j
 const addToCart = document.querySelector('.button-detail');

@@ -47,75 +47,36 @@ closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden')
 });
 
-// login
-
-// const emailLogin = document.querySelector('#email-login');
-// const passwordLogin = document.querySelector('#password-login');
-// const buttonLogin = document.querySelector('.button-login')
-// buttonLogin.addEventListener('click' ,(even) => {
-//   even.preventDefault();
-//   const email = emailLogin.value.trim();
-//   const password = passwordLogin.value.trim();
-//   if( email === '' || password === ''){
-//     alert('Không được bỏ trống');
-//     return ;
-//   }
-
-//   const loderUser = localStorage.getItem('user')
-//   if(!loderUser) {
-//     alert('Chưa có tài khoản nào đăng ký')
-//     return;
-//   }
-//   const user = JSON.parse(loderUser);
-
-//   const confirmUser = user.find(item => item.email === email && item.password === password) ;
-
-//   if(!confirmUser) {
-//     alert('Email hoặc password không đúng');
-//     return ;
-//   }
-//   localStorage.setItem('currentUser' ,JSON.stringify({
-//     email :confirmUser.email ,
-//     password : confirmUser.password ,
-//     user : confirmUser,
-//     isLogin : true ,
-//   }))
-//   alert('Đăng nhập thành công');
-//   window.location.href='index.html'
-// })
 
 
-// lay du lieu tu locastorage de dang nhap 
 const inputEmail = document.getElementById('email-login');
-const inputPassword = document.getElementById('password-login');
+const inpurPassword = document.getElementById('password-login');
+
 const buttonLogin = document.querySelector('.button-login');
 
-buttonLogin.addEventListener('click', (event) => {
-  event.preventDefault();
-  const email = inputEmail.value.trim();
-  const password = inputPassword.value.trim();
-  if (email === '' || password === '') {
-    alert('Không được bỏ trống ')
-    return;
+buttonLogin.addEventListener('click' ,(even) => {
+  even.preventDefault();
+  const email = inputEmail.value.trim() ;
+  const password = inpurPassword.value.trim() ;
+  if( email === '' || password === '') {
+    alert('khong duoc bo trong')
+    return ;
   }
-  const loadUser = localStorage.getItem('user');
+  const loadUser = localStorage.getItem('user') ;
   const user = JSON.parse(loadUser);
-  
   const confirmUser = user.find(item => {
-    return item.email === email && item.password === password;
-  });
-  if (!confirmUser) {
-    alert('Email hoặc Password không đúng');
-    return;;
+    return item.email === email && item.password === password ;
+  })
+  if( !confirmUser) {
+    alert('email hoac mat khau khong dung');
+    return ;
   }
-
-  localStorage.setItem('currentUser', JSON.stringify({
-    email: confirmUser.email,
-    password: confirmUser.password,
-    user: confirmUser,
-    isLogin: true,
+  localStorage.setItem('curretnUser' , JSON.stringify({
+    email : confirmUser.email ,
+    password:confirmUser.password ,
+    // user : confirmUser ,
+    // isLogin : true ,
   }))
-  alert('Đăng nhập thành công')
-  window.location.href = 'index.html'
-
-})
+  alert('dang nhap thanh cong')
+  window.location.href ='index.html'
+} )

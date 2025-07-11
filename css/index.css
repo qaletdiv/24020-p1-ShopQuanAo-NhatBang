@@ -1058,3 +1058,14 @@ footer {
   font-size: 3rem;
   font-weight: 600;
 }
+.dropdow-price{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+#price-filter{
+  width: 15rem;
+  height: 4rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}

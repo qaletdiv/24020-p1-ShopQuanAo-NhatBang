@@ -195,3 +195,24 @@ loadMoreBtn.addEventListener("click", () => {
   loadMoreBtn.classList.add('hidden')
 });
 
+// loc gia san pham 
+
+const priceFilter = document.getElementById('price-filter');
+priceFilter.addEventListener('change' ,() => {
+  const priceValue = priceFilter.value ;
+  if(priceValue === '0-200000') {
+    const price1 = products.filter(item => {
+      const price = item.price || item.priceSale;
+      return price > 0 && price <= 200000
+    })
+    renderProductList(productMainShirtPage,price1)
+    
+  }
+  else if(priceValue === '200000-500000') {
+    const price2 = products.filter(item => {
+      const price = item.price || item.priceSale;
+      return price >200000 && price <= 500000
+    })
+    renderProductList(productMainShirtPage,price2)
+  }
+})

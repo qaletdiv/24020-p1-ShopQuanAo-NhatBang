@@ -99,21 +99,24 @@ if (productDetail) {
 `
 }
 // lam click tang them san pham
-const inputPlus = document.querySelector('.plus');
-const quantityDetail = document.getElementById('quantity-detail');
-let quantity = 1
-inputPlus.addEventListener('click', () => {
-  quantity++;
-  quantityDetail.value = quantity;
-});
 
-// lam click giam san pham 
-const inputMinus = document.querySelector('.minus');
-inputMinus.addEventListener('click', () => {
-  if (quantity > 1) {
-    quantity--;
-    quantityDetail.value = quantity;
+const spanMinus = document.querySelector('.minus');
+const spanPlus = document.querySelector('.plus');
+const quantityDetail = document.getElementById('quantity-detail')
+// let quantity = 1;
+
+// tru san pham
+spanMinus.addEventListener('click', () => {
+  let current = Number(quantityDetail.value) || 1 ;
+  if(current > 1) {
+    quantityDetail.value = current - 1 ;
   }
+ })
+
+// cong them san pham 
+spanPlus.addEventListener('click', () => {
+  let current = Number(quantityDetail.value) || 1 ;
+  quantityDetail.value = current+ 1
 })
 
 // lay nhung san pham tuong tu va khong lay san pham da vo trang chi tiet 
@@ -180,12 +183,42 @@ addToCart.addEventListener('click', () => {
     alert('Đăng nhập trước khi thêm vào giỏ hàng')
     window.location.href = 'login.html'
     return ;
+  } 
+
+  
+  const name = document.querySelector('.name-detail').textContent;
+  const price = document.querySelector('.price-detail').textContent;
+  const dropSizes = document.getElementById('select-drop-size').value;
+  const quantity = parseInt(document.getElementById('quantity-detail').value);
+  const img = productDetail.imageURL
+  const id = productDetail.id;
+  // lay localStorage ve 
+  const currentCart = localStorage.getItem('cart');
+  let cart = [];
+  if (currentCart !== null) {
+    cart = JSON.parse(currentCart);
   }
-  if( !pareUser.isLogin) {
-    alert('Đăng nhập trước khi thêm vào giỏ hàng')
-    window.location.href = 'login.html'
-    return ;
+
+
+  const newProductCart = {
+    id,
+    name,
+    price,
+    sizes: dropSizes,
+    quantity,
+    img
   }
+  const cartIndex = cart.find(item => {
+    return item.id === id && item.sizes == dropSizes;
+  })
+  if (cartIndex) {
+    cartIndex.quantity += quantity;
+  }
+  else {
+    cart.push(newProductCart)
+    console.log(cart)
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
 
   alert('Them vao gio hang thanh cong')
 })

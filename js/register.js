@@ -48,12 +48,11 @@ closeInputFind.addEventListener('blur', () => {
 });
 
 /// click vao nut dang ky 
-
+const inputName = document.querySelector('#input-name-re');
 const inputEmail = document.querySelector('#input-email-re');
 const inputPassword = document.querySelector('#input-password-re');
 const inputConfirmPassword = document.querySelector('#input-confirm-password');
 const buttonRegister = document.querySelector('.Button-register');
-
 const loadUser = localStorage.getItem('user');
 let user = [];
 if( loadUser !== null) {
@@ -61,10 +60,11 @@ if( loadUser !== null) {
 }
 buttonRegister.addEventListener('click' ,(event) => {
     event.preventDefault();
+    const name = inputName.value.trim();
     const email = inputEmail.value.trim();
     const password = inputPassword.value.trim();
     const confirmPassword = inputConfirmPassword.value.trim();
-    if(email === '' || password === '' || confirmPassword === ''){
+    if(name === '' || email === '' || password === '' || confirmPassword === ''){
         alert('Không được bỏ trống');
         return ;
     }
@@ -87,6 +87,7 @@ buttonRegister.addEventListener('click' ,(event) => {
         return ;
     }
     user.push({
+        name : name ,
         email : email ,
         password : password ,
     })

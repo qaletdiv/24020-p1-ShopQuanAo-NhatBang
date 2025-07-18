@@ -46,3 +46,40 @@ const closeInputFind = document.querySelector('.input-find');
 closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden')
 });
+
+const currentCart = localStorage.getItem('cart')
+const cart = currentCart ? JSON.parse(currentCart) : [];
+
+const divInformation = document.querySelector('.div-information');
+if (divInformation) {
+  cart.forEach(item => {
+    const divCartCheckout = document.createElement('div')
+    divCartCheckout.classList.add('cart-checkout-page');
+    divCartCheckout.innerHTML = `
+        <div class="cart-page-check">
+              <img class="img-cart-checkout" src="${item.img}" alt="">
+              <div class="content-checkout">
+                  <div class="content-size-quantity">
+                      <p class="checkout-size">Size: ${item.sizes}</p>
+                      <p class="checkout-quantity">Số lượng: ${item.quantity}</p>
+                  </div>
+                  <p class="checkout-name">${item.name}</p>
+              </div>
+          </div>
+  `
+    divInformation.appendChild(divCartCheckout)
+  });
+}
+
+const totalPrice = cart.reduce((total, item) => {
+    const price = item.price.replace(/[^\d]/g, '');
+     total += (Number(price) * Number(item.quantity));
+  return total ;
+},0);
+
+const divtTotalCheckout = document.createElement('div');
+divtTotalCheckout.classList.add('total-checkout-content')
+divtTotalCheckout.innerHTML =`
+<p class="total-checkout">Tổng tiền: ${totalPrice.toLocaleString('vi-VN')} đ </p>
+`
+divInformation.appendChild(divtTotalCheckout)

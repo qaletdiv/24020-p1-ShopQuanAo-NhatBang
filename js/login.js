@@ -50,16 +50,16 @@ closeInputFind.addEventListener('blur', () => {
 
 
 const inputEmail = document.getElementById('email-login');
-const inpurPassword = document.getElementById('password-login');
+const inputPassword = document.getElementById('password-login');
 
 const buttonLogin = document.querySelector('.button-login');
 
 buttonLogin.addEventListener('click' ,(even) => {
   even.preventDefault();
   const email = inputEmail.value.trim() ;
-  const password = inpurPassword.value.trim() ;
+  const password = inputPassword.value.trim() ;
   if( email === '' || password === '') {
-    alert('khong duoc bo trong')
+    alert('Không được bỏ trống')
     return ;
   }
   const loadUser = localStorage.getItem('user') ;
@@ -68,15 +68,15 @@ buttonLogin.addEventListener('click' ,(even) => {
     return item.email === email && item.password === password ;
   })
   if( !confirmUser) {
-    alert('email hoac mat khau khong dung');
+    alert('Email hoặc mật khẩu không đúng');
     return ;
   }
-  localStorage.setItem('curretnUser' , JSON.stringify({
+  localStorage.setItem('currentUser' , JSON.stringify({
     email : confirmUser.email ,
     password:confirmUser.password ,
     // user : confirmUser ,
     // isLogin : true ,
   }))
-  alert('dang nhap thanh cong')
+  alert('Đăng nhập thành công')
   window.location.href ='index.html'
 } )

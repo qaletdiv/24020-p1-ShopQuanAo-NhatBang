@@ -130,7 +130,8 @@ const productShirtSame = document.querySelector('.product-shirt-main-same')
 function renderProduct(continer, start, end) {
   const showProduct = sameProduct.slice(start, end);
   showProduct.forEach(item => {
-    const divEl = document.createElement('product-main');
+    const divEl = document.createElement('div');
+    divEl.classList.add('product-main');
 
     // phan biet gia ban va giam gia
     let priceHTML = `<p>${item.price.toLocaleString('vi-VN')}đ</p>`;
@@ -220,5 +221,6 @@ addToCart.addEventListener('click', () => {
   }
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  alert('Them vao gio hang thanh cong')
+  alert('Thêm giỏ hàng thành công')
+  window.location.href ='cart.html'
 })

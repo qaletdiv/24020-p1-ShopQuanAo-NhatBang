@@ -65,7 +65,7 @@ buttonRegister.addEventListener('click' ,(event) => {
     const password = inputPassword.value.trim();
     const confirmPassword = inputConfirmPassword.value.trim();
     if(email === '' || password === '' || confirmPassword === ''){
-        alert('khong duoc bo trong');
+        alert('Không được bỏ trống');
         return ;
     }
     // check coi email nay da dang ky chua
@@ -73,17 +73,17 @@ buttonRegister.addEventListener('click' ,(event) => {
         return item.email === email ;
     })
     if( target) {
-        alert( 'Email nay da duoc du dung ')
+        alert( 'Email này đã được sử dụng ')
         return ;
     }
 
     // check xem mat khau nhat xac nhan lai co trung nhau khong 
     if( password !== confirmPassword) {
-        alert('Mat khau khong trung khop');
+        alert('Mật khẩu không trùng khớp');
         return ;
     }
     if(password.length < 6){
-        alert('mat khua phai tren 6 so')
+        alert('Mật khẩu trên 6 chữ số')
         return ;
     }
     user.push({
@@ -91,7 +91,7 @@ buttonRegister.addEventListener('click' ,(event) => {
         password : password ,
     })
     localStorage.setItem('user' ,JSON.stringify(user));
-    alert('dang ky thanh cong')
+    alert('Đăng ký thành công')
     window.location.href ='login.html'
 
 })

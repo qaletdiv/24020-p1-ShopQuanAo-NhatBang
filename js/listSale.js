@@ -163,8 +163,12 @@ function renderProductList (container , list) {
   })
 }
 const inputFind = document.querySelector('.input-find');
-inputFind.addEventListener('input' ,() =>{   
-   const searchText = inputFind.value.trim().toLowerCase();
-    const inputNameDrop = products.filter(item => item.name.toLowerCase().includes(searchText));
-    renderProductList(productMainShirt,inputNameDrop)
-})
+inputFind.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    const searchText = inputFind.value.trim().toLowerCase();
+    const inputNameDrop = products.filter(item =>
+      item.name.toLowerCase().includes(searchText)
+    );
+    renderProductList(productMainShirtPage, inputNameDrop);
+  }
+});

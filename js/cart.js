@@ -46,26 +46,27 @@ const closeInputFind = document.querySelector('.input-find');
 closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden')
 });
+// tim kiem san pham 
 
 /// them san pham vao gio hang
 const currentCart = localStorage.getItem('cart')
 const cart = currentCart ? JSON.parse(currentCart) : [];
-
 const sectionCartRow = document.querySelector('.cart-row');
+
 
 if (cart.length === 0) {
   sectionCartRow.innerHTML = `
-  <p> Gio hang dang trong </p>
+  <p class="cart-dang-trong"> Giỏ hàng đang trống  </p>
   `
 }
 else {
   // hine thi tieu de cua trang 
   const divELCarPage = document.createElement('div')
   divELCarPage.classList.add('cart-page-layout');
-  divELCarPage.innerHTML=`
+  divELCarPage.innerHTML = `
                 <div class="cart-page_head">
                     <h1>Giỏ hàng của bạn</h1>
-                    <p>Hiên đang có ${cart.length} sản phẩm</p>
+                    <p>Hiện đang có ${cart.length} sản phẩm</p>
                 </div>
                 <div class="cartformpage">
                     <div class="head-cart">
@@ -84,22 +85,22 @@ else {
   `
   sectionCartRow.appendChild(divELCarPage)
   ///
-   const divContentCart = document.querySelector('.content-cart')
+  const divContentCart = document.querySelector('.content-cart')
   cart.forEach(item => {
     const divEl = document.createElement('div')
     divEl.classList.add('cart-page-layout');
     // tin gia tong san cua 1 san pham 
     const price = item.price.replace(/[^\d]/g, '');
-  
+
     const totalPrice = Number(item.quantity) * Number(price);
     divEl.innerHTML = `
             
-                        <div class="content-cart-page">
+                        <div class="content-cart-page" data-id="${item.id}">
                             <div class="content-item img-cart">
                                 <img src="${item.img}" alt="">
 
                                 <div class="content-cart-product">
-                                    <p>Mã sản phẩm : ${item.id}</p>
+                                    <p>Mã sản phẩm : ${item.id} , Size : ${item.sizes}</p>
                                     <h1>${item.name}</h1>
                                     <button class="button-cart-remove">Remove</button>
                                 </div>
@@ -116,14 +117,14 @@ else {
     `
     divContentCart.appendChild(divEl)
   });
-// tinh tong so tien cua san pham
-  function tinhTongSoTien (cart) {
+  // tinh tong so tien cua san pham
+  function tinhTongSoTien(cart) {
     let total = 0
     cart.forEach(item => {
-    const price = item.price.replace(/[^\d]/g, '');
-    total += (Number(item.quantity) * Number(price));
+      const price = item.price.replace(/[^\d]/g, '');
+      total += (Number(item.quantity) * Number(price));
     })
-    return total ;
+    return total;
 
   }
   // console.log(tinhTongSoTien(cart))
@@ -131,37 +132,81 @@ else {
   const cartFormPage = document.querySelector('.cartformpage');
   const divTotal = document.createElement('div');
   divTotal.classList.add('total-cart');
-  divTotal.innerHTML =`
+  divTotal.innerHTML = `
           <span>Tổng tiền :</span>
-          <p class="total-price"> ${tinhTongSoTien(cart).toLocaleString('vi-VN')}đ</p>  
+          <p class="total-price"> ${tinhTongSoTien(cart).toLocaleString('vi-VN')} đ</p>  
   `
   cartFormPage.appendChild(divTotal)
 
   // tien hanh den trang thanh toan
   const divCheckOut = document.createElement('div');
   divCheckOut.classList.add('checkout-cart')
-  divCheckOut.innerHTML=`
+  divCheckOut.innerHTML = `
+  <p class="price-shop-continue" >Tiếp tục mua sắm</p>
   <button class="button-checkout-cart">Thanh toán sản phẩm</button>
   `
   cartFormPage.appendChild(divCheckOut);
   // remove san pham 
-  const buttonDelete = document.querySelector('.button-cart-remove');
-  buttonDelete.addEventListener('click' ,(even) => {
-    const deleteButton = even.target;
-    const contentCart = deleteButton.parentElement;
-    const contenItem = contentCart.parentElement;
-    const contentCartPage = contenItem.parentElement;
-    // deleteButton.classList.add('hidden')
-    const isConfirm = confirm('ban chac chan muon xoa san pham nay')
+  const buttonDelete = document.querySelectorAll('.button-cart-remove');
+  buttonDelete.forEach(button => {
+    button.addEventListener('click', (event) => {
+      const deleteButton = event.target;
+      const contentCart = deleteButton.parentElement;
+      const contenItem = contentCart.parentElement;
+      const contentCartPage = contenItem.parentElement;
+      const id = contentCartPage.getAttribute('data-id');
 
-    if(isConfirm) {
-      contentCartPage.remove();
-      // localStorage.removeItem('cart')
-    }
-  } )
+      const isConfirm = confirm('Bạn chắc chắn muốn xoá sản phẩm này?');
+      if (isConfirm) {
+        let cart = [];
+        const current = localStorage.getItem('cart');
+        if (current !== null) {
+          cart = JSON.parse(current)
+        }
+
+        // xoa san pham can xoa tren local
+        const updatedCart = cart.filter(item => {
+          return String(item.id) !== String(id);
+        })
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        // xoa san pham tren gia dien
+        contentCartPage.remove();
+       
+       
+        /// cap nhat lai tong tien khi xoa san pham 
+        const newTotal = updatedCart.reduce((total , item) => {
+          const price =Number(item.price.replace(/[^\d]/g ,''));
+          return total + ( price *  Number(item.quantity));
+        },0)  ;
+        const totalPriceElment = document.querySelector('.total-price') ;
+        if(totalPriceElment){
+          totalPriceElment.textContent =`${newTotal.toLocaleString('vi-VN')} đ`;
+        }
+  
+
+        // neu khong co san pham gi se hien
+        if (updatedCart.length === 0) {
+          const sectionCartRow = document.querySelector('.cart-row');
+          sectionCartRow.innerHTML = `
+          <p class="cart-dang-trong"> Giỏ hàng đang trống  </p>
+        `
+        }
+
+      }
+
+
+    })
+  })
+
   // chuyen sang trang thanh toan
-  divCheckOut.addEventListener('click' ,() => {
+  const shopPriceContinue = document.querySelector('.price-shop-continue');
+  shopPriceContinue.addEventListener('click',() => {
+    window.location.href =`products.html`
+  })
 
-    window.location.href =`checkout.html`
+  const buttonCheckoutPage = document.querySelector('.button-checkout-cart')
+  buttonCheckoutPage.addEventListener('click', () => {
+
+    window.location.href = `checkout.html`
   })
 }

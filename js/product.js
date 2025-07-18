@@ -45,9 +45,9 @@ const closeInputFind = document.querySelector('.input-find');
 
 closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden');
-  closeInputFind.value ='';
+  closeInputFind.value = '';
 });
-  
+
 
 
 
@@ -60,7 +60,7 @@ let currenDisplay = 8;
 
 
 // hien thij ta ca san pham 
-function renderProduct(container ,start, end) {
+function renderProduct(container, start, end) {
   const showProduct = products.slice(start, end);
   showProduct.forEach(item => {
     const divEl = document.createElement('div');
@@ -76,8 +76,8 @@ function renderProduct(container ,start, end) {
     }
     // hien thi gia ca 
     let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
-    if(item.priceSale < item.price) {
-      priceHTML= `
+    if (item.priceSale < item.price) {
+      priceHTML = `
       <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
       <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
       `
@@ -101,10 +101,10 @@ function renderProduct(container ,start, end) {
   });
 }
 // hien thi san pham trang product
-renderProduct(productMainShirtPage,0, currenDisplay);
+renderProduct(productMainShirtPage, 0, currenDisplay);
 
 // hien thi san pham la khi click nu hoac nam 
-function renderProductList (container , list) {
+function renderProductList(container, list) {
   container.innerHTML = '';
   list.forEach(item => {
     const divEl = document.createElement('div');
@@ -120,8 +120,8 @@ function renderProductList (container , list) {
     }
     // hien thi gia ca 
     let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
-    if(item.priceSale < item.price) {
-      priceHTML= `
+    if (item.priceSale < item.price) {
+      priceHTML = `
       <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
       <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
       `
@@ -146,27 +146,27 @@ function renderProductList (container , list) {
 
 const selectDrop = document.querySelector('#select-drop')
 // clik change loc Nam va NU 
-selectDrop.addEventListener("change" , () =>{
-  const selectValue = selectDrop.value ;
-  if(selectValue === 'Nam') {
+selectDrop.addEventListener("change", () => {
+  const selectValue = selectDrop.value;
+  if (selectValue === 'Nam') {
     const shirtMen = products.filter(item => {
-     return item.category.includes('Nam')
+      return item.category.includes('Nam')
     })
-    renderProductList(productMainShirtPage,shirtMen);
+    renderProductList(productMainShirtPage, shirtMen);
 
   }
-  else if(selectValue === 'Nu') {
+  else if (selectValue === 'Nu') {
     const shirtWomen = products.filter(item => {
       return item.category.includes('Nu')
     })
-    renderProductList(productMainShirtPage,shirtWomen)
+    renderProductList(productMainShirtPage, shirtWomen)
   }
-  else{
-    renderProduct(productMainShirtPage,0,currenDisplay)
+  else {
+    renderProduct(productMainShirtPage, 0, currenDisplay)
   }
   loadMoreBtn.classList.add('hidden');
 
-  
+
 });
 
 // 
@@ -202,58 +202,85 @@ inputFind.addEventListener('keydown', (event) => {
 
 // click remove mat nut hien thi them
 loadMoreBtn.addEventListener("click", () => {
-  renderProduct(productMainShirtPage,currenDisplay, products.length);
+  renderProduct(productMainShirtPage, currenDisplay, products.length);
   loadMoreBtn.classList.add('hidden')
 });
 
 // loc gia san pham 
 
 const priceFilter = document.getElementById('price-filter');
-priceFilter.addEventListener('change' ,() => {
-  const priceValue = priceFilter.value ;
-  if(priceValue === '0-200000') {
+priceFilter.addEventListener('change', () => {
+  const priceValue = priceFilter.value;
+  if (priceValue === '0-200000') {
     const price1 = products.filter(item => {
       const price = item.priceSale || item.price;
       return price > 0 && price <= 200000
     })
-    renderProductList(productMainShirtPage,price1)
+    renderProductList(productMainShirtPage, price1)
     loadMoreBtn.classList.add('hidden')
-    
+
   }
-  else if(priceValue === '200000-500000') {
+  else if (priceValue === '200000-500000') {
     const price2 = products.filter(item => {
       const price = item.priceSale || item.price;
-      return price >200000 && price <= 500000
+      return price > 200000 && price <= 500000
     })
-    renderProductList(productMainShirtPage,price2)
+    renderProductList(productMainShirtPage, price2)
     loadMoreBtn.classList.add('hidden')
   }
-  else if(priceValue === '500000-700000') {
+  else if (priceValue === '500000-700000') {
     const price3 = products.filter(item => {
       const price = item.priceSale || item.price;
-      return price >500000 && price <= 700000
+      return price > 500000 && price <= 700000
     })
-    renderProductList(productMainShirtPage,price3)
+    renderProductList(productMainShirtPage, price3)
     loadMoreBtn.classList.add('hidden')
   }
-  else if(priceValue === '700000-1000000') {
+  else if (priceValue === '700000-1000000') {
     const price4 = products.filter(item => {
       const price = item.priceSale || item.price;
-      return price >700000 && price <= 1000000
+      return price > 700000 && price <= 1000000
     })
-    renderProductList(productMainShirtPage,price4)
+    renderProductList(productMainShirtPage, price4)
     loadMoreBtn.classList.add('hidden')
   }
-  else if(priceValue === '1000000+') {
+  else if (priceValue === '1000000+') {
     const price5 = products.filter(item => {
       const price = item.priceSale || item.price;
-      return price >1000000
+      return price > 1000000
     })
-    renderProductList(productMainShirtPage,price5)
+    renderProductList(productMainShirtPage, price5)
     loadMoreBtn.classList.add('hidden')
   }
   else {
-    renderProduct(productMainShirtPage,0,currenDisplay)
+    renderProduct(productMainShirtPage, 0, currenDisplay)
     loadMoreBtn.classList.remove('hidden')
   }
+})
+
+// gia giam dan 
+
+const priceGiam = document.querySelector('.price-giam');
+
+priceGiam.addEventListener('click', () => {
+  const priceGiamDan = [...products].sort((a, b) => {
+    const priceA = a.priceSale || a.price;
+    const priceB = b.priceSale || b.price;
+    return priceB - priceA;
+  });
+
+  renderProductList(productMainShirtPage, priceGiamDan);
+  loadMoreBtn.classList.add('hidden')
+});
+
+// gia tang dan 
+const priceTang = document.querySelector('.price-tang');
+priceTang.addEventListener('click', () => {
+  const priceTangDan = [...products].sort((a, b) => {
+    const priceA = a.priceSale || a.price;
+    const priceB = b.priceSale || b.price;
+    return priceA - priceB;
+  })
+  renderProductList(productMainShirtPage, priceTangDan);
+  loadMoreBtn.classList.add('hidden')
 })

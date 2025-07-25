@@ -46,7 +46,7 @@ const closeInputFind = document.querySelector('.input-find');
 closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden')
 });
-  
+
 // 
 // silde-show images 
 
@@ -122,11 +122,11 @@ let currenDisplay = 6;
 
 
 
-function renderProduct(container ,start, end) {
+function renderProduct(container, start, end) {
   // const showProduct = products.slice(start, end);
   const showProduct = products.filter((item) => {
     return item.tags && item.tags.includes('noi bat')
-  }).slice(start,end)
+  }).slice(start, end)
   showProduct.forEach(item => {
     const divEl = document.createElement('div');
     divEl.classList.add('product-main');
@@ -141,20 +141,20 @@ function renderProduct(container ,start, end) {
     }
     // hien thi gia ca 
     let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
-    if(item.priceSale < item.price) {
-      priceHTML= `
+    if (item.priceSale < item.price) {
+      priceHTML = `
       <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
       <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
       `
 
     }
     // hien thi san pham noi  bat 
-    let outsantHTML ='' ;
-    if(item.tags && item.tags.includes('noi bat')){
-      outsantHTML=` <img src="${item.imageURL}" alt="${item.name}" />`
+    let outsantHTML = '';
+    if (item.tags && item.tags.includes('noi bat')) {
+      outsantHTML = ` <img src="${item.imageURL}" alt="${item.name}" />`
     }
-    else{
-      return ;
+    else {
+      return;
     }
     divEl.innerHTML = `
       <div class="img_hidden">
@@ -176,16 +176,16 @@ function renderProduct(container ,start, end) {
 
 
 // hien thi san pham trang index 
-renderProduct(productMainShirt,0, currenDisplay)
+renderProduct(productMainShirt, 0, currenDisplay)
 
 // renderProduct(currenDisplay, products.length);
 
 loadMoreBtn.addEventListener("click", () => {
-  renderProduct(productMainShirt,currenDisplay, products.length);
+  renderProduct(productMainShirt, currenDisplay, products.length);
   loadMoreBtn.classList.add('hidden')
 
-}); 
-function renderProductList (container , list) {
+});
+function renderProductList(container, list) {
   container.innerHTML = '';
   list.forEach(item => {
     const divEl = document.createElement('div');
@@ -201,8 +201,8 @@ function renderProductList (container , list) {
     }
     // hien thi gia ca 
     let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
-    if(item.priceSale < item.price) {
-      priceHTML= `
+    if (item.priceSale < item.price) {
+      priceHTML = `
       <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
       <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
       `
@@ -234,3 +234,40 @@ inputFind.addEventListener('keydown', (event) => {
     renderProductList(productMainShirtPage, inputNameDrop);
   }
 });
+// hien co bao nhieu san pham tren icon gio hang 
+
+const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const quantityElement = document.querySelector('.update-content-cart');
+
+if (currentUser && quantityElement) {
+  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity  ), 0);
+
+  if (totalQuantity > 0) {
+    quantityElement.textContent = totalQuantity;
+    quantityElement.classList.remove('hidden');
+  } else {
+    quantityElement.classList.add('hidden');
+  }
+} else {
+  // Ẩn nếu chưa đăng nhập
+  if (quantityElement) {
+    quantityElement.classList.add('hidden');
+  }
+}
+// dang xuat 
+const spanLogOut = document.querySelector('.log-out');
+
+spanLogOut.addEventListener('click', () => {
+  const result = confirm("Bạn chắc chắn muốn đăng xuất không")
+  if(result) {
+  localStorage.removeItem('currentUser')
+  Window.location.herf = 'index.html'
+  }
+  else {
+    return ;
+  }
+})
+
+
+

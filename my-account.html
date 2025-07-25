@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/my-account.css">
     <link rel="stylesheet" href="css/queries.css" />
 
     <title>Document</title>
@@ -105,15 +105,13 @@
                         </svg>
                     </button>
                     <a href="cart.html">
-                        <button class="button-cart-quantity">
+                        <button>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                             </svg>
-                            <p class="update-content-cart"></p>
                         </button>
-
                     </a>
                     <a href="register.html">
                         <button>
@@ -143,70 +141,42 @@
         </section>
     </header>
     <main>
-        <section class="section-checkout">
-            <div class="div-information">
-                <!-- <div class="cart-checkout-page ">
-                    <div class="cart-page-check">
-                        <img class="img-cart-checkout" src="images/shirt1.jpg" alt="">
-                        <div class="content-checkout">
-                            <div class="content-size-quantity">
-                                <p class="checkout-size">Size: S</p>
-                                <p class="checkout-quantity">Số lượng: 1</p>
-                            </div>
-                            <p class="checkout-name">Sasss</p>
+        <section class="section-account">
+            <div class="container">
+                <h2 class="h2-account">Tài khoản của tôi</h2>
+                <!-- <div class="div-my-account">
+                    <div class="info">
+                        <h3>Thông tin cá nhân</h3>
+                        <div class="content-info">
+                            <p><strong>Họ và tên:</strong> <span id="fullName">aaa</span></p>
+                            <p><strong>Email:</strong> <span id="email"></span></p>
                         </div>
                     </div>
-                    <div class="cart-page-check">
-                        <img class="img-cart-checkout" src="images/shirt1.jpg" alt="">
-                        <div class="content-checkout">
-                            <div class="content-size-quantity">
-                                <p class="checkout-size">Size: S</p>
-                                <p class="checkout-quantity">Số lượng: 1</p>
-                            </div>
-                            <p class="checkout-name">Sasss</p>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="total-checkout-content">
-                    <p class="total-checkout">Tổng tiền : 100000</p>
-                </div> -->
 
-            </div>
-            <div class="div-form-checkout">
-                <form action="" class="form-checkout">
-                    <!-- ho va ten -->
-                    <div>
-                        <label for="name">Họ và tên</label>
-                        <input type="text" id="input-name" name="user_name" placeholder="Nhập họ và tên ">
+                    <div class="orders">
+                        <h3>Lịch sử đặt hàng</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn hàng</th>    
+                                    <th>Ngày đặt</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderHistory">
+                                <tr>
+                                    <td>qq</td>    
+                                    <td>1111</td>
+                                    <td>11111111</td>
+                                    <td>ok</td>
+                                </tr>
+    
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- dia chi -->
-                    <div>
-                        <label for="address">Địa chỉ</label>
-                        <input type="text" id="input-address" name="user_address" placeholder="Nhập địa chỉ">
-                    </div>
-                    <!-- Nhap email -->
-                    <div>
-                        <label for="email">Email</label>
-                        <input type="text" id="input-email" name="user_email" placeholder="Nhập email">
-                    </div>
-                    <!-- So dien thoai -->
-                    <div>
-                        <label for="phone">Số Điện Thoại</label>
-                        <input type="tel" id="input-phone" name="user_phone" placeholder="Nhập số điện thoại">
-                    </div>
-                    <div>
-                        <label for="checkout">Phương thức thanh toán</label>
-                        <select name="checkout" id="select-thanh-toan" required>
-                            <option value="COD">Thanh toán khi nhận hàng (COD)</option>
-                            <option value="Chuyen_khoang">Chuyển khoảng</option>
-                        </select>
-                    </div>
-                    <!-- Button  submit-->
-                    <div class="div-submit">
-                        <button type="submit" class="button-submit">Xác nhận đặt hàng</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </div> -->
         </section>
     </main>
     <footer>
@@ -242,7 +212,7 @@
             </div>
         </div>
     </footer>
-    <script type="module" src="js/checkout.js"></script>
+    <script type="module" src="js/my-account.js"></script>
 </body>
 
 </html>

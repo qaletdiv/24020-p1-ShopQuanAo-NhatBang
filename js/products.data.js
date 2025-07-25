@@ -57,7 +57,7 @@ const products = [
   {
     id: 6,
     name: "SHIRT WOMAN 2",
-    categoryName: "SHIRT WOMAN" ,
+    categoryName: "SHIRT WOMAN",
     description: "Ao len nu mau hong ",
     price: 700000,
     imageURL: "images/shirt6.jpg",
@@ -229,7 +229,31 @@ const products = [
     sizes: ['S', 'M', 'L', 'XL'],
   },
 ];
-// 
+//
+const user = {
+  fullName: "Nguyễn Văn A",
+  email: "nguyenvana@example.com",
+  orders: [
+    {
+      id: "DH001",
+      date: "2025-07-10",
+      total: "500.000₫",
+      status: "Đã giao"
+    },
+    {
+      id: "DH002",
+      date: "2025-07-15",
+      total: "1.200.000₫",
+      status: "Đang xử lý"
+    },
+    {
+      id: "DH003",
+      date: "2025-07-20",
+      total: "750.000₫",
+      status: "Đã hủy"
+    }
+  ]
+};
 
 const imagesList = [
   "images/silde-show1.jpg",
@@ -237,5 +261,5 @@ const imagesList = [
   "images/silde-show3.jpg",
 ]
 export {
-  products, imagesList
+  products, imagesList, user
 }

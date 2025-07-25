@@ -2,8 +2,9 @@
 .section-login{
   width: 40rem; 
   border: 2px solid;
-  margin: 10rem auto;
+  margin: 10rem auto 5rem auto;
   border-radius: 1rem;
+   box-shadow: 0rem 0rem 1rem rgba(0, 0, 0, 0.2  );
 }
 .from-login{
    border: 2px solid;
@@ -34,7 +35,7 @@
   width: 20rem;
   height: 4rem;
   border-radius: 0.5rem;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   background-color: #800e0e;
   color: #fff;
   border: none;
@@ -62,4 +63,29 @@
   display: flex;
   justify-content: center;
   text-decoration: underline  ;
+}
+.a-login{
+  font-size: 2.5rem;
+}
+.my-account{
+  /* display: flex; */
+  /* justify-content: center; */
+  margin: 0 auto;
+  width: 40rem;
+  margin-bottom: 10rem;
+
+}
+.my-account a {
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  text-decoration: underline;
+  align-items: center;
+  gap: 1rem;
+}
+.icon-my-account{
+  width: 4rem;
+  border: none;
+  background-color:#fff;
+
 }

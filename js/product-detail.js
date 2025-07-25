@@ -224,3 +224,24 @@ addToCart.addEventListener('click', () => {
   alert('Thêm giỏ hàng thành công')
   window.location.href ='cart.html'
 })
+//
+// hien co bao nhieu san pham tren icon gio hang 
+const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const quantityElement = document.querySelector('.update-content-cart');
+
+if (currentUser && quantityElement) {
+  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity  ), 0);
+
+  if (totalQuantity > 0) {
+    quantityElement.textContent = totalQuantity;
+    quantityElement.classList.remove('hidden');
+  } else {
+    quantityElement.classList.add('hidden');
+  }
+} else {
+  // Ẩn nếu chưa đăng nhập
+  if (quantityElement) {
+    quantityElement.classList.add('hidden');
+  }
+}

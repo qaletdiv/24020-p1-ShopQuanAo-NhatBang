@@ -50,6 +50,12 @@ closeInputFind.addEventListener('blur', () => {
 const currentCart = localStorage.getItem('cart')
 const cart = currentCart ? JSON.parse(currentCart) : [];
 
+// if (!currentCart) {
+//   alert('Ban phai don hang trong gio hang moi truy cap docj')
+//   // window.location.href = 'login.html'
+//   // return;
+// }
+
 const divInformation = document.querySelector('.div-information');
 if (divInformation) {
   cart.forEach(item => {
@@ -60,7 +66,7 @@ if (divInformation) {
               <img class="img-cart-checkout" src="${item.img}" alt="">
               <div class="content-checkout">
                   <div class="content-size-quantity">
-                      <p class="checkout-size">Size: ${item.sizes}</p>
+                      <p class="checkout-size">Size: ${item.sizes} ,</p>
                       <p class="checkout-quantity">Số lượng: ${item.quantity}</p>
                   </div>
                   <p class="checkout-name">${item.name}</p>
@@ -72,14 +78,68 @@ if (divInformation) {
 }
 
 const totalPrice = cart.reduce((total, item) => {
-    const price = item.price.replace(/[^\d]/g, '');
-     total += (Number(price) * Number(item.quantity));
-  return total ;
-},0);
+  const price = item.price.replace(/[^\d]/g, '');
+  total += (Number(price) * Number(item.quantity));
+  return total;
+}, 0);
 
 const divtTotalCheckout = document.createElement('div');
 divtTotalCheckout.classList.add('total-checkout-content')
-divtTotalCheckout.innerHTML =`
+divtTotalCheckout.innerHTML = `
 <p class="total-checkout">Tổng tiền: ${totalPrice.toLocaleString('vi-VN')} đ </p>
 `
-divInformation.appendChild(divtTotalCheckout)
+divInformation.appendChild(divtTotalCheckout);
+// đăng nhập mới vào đực trang check out
+
+
+
+
+/// xác nhập đơn hàng 
+const inputName = document.querySelector('#input-name');
+const inputAddress = document.querySelector('#input-address');
+const inputEmail = document.querySelector('#input-email');
+const inputPhone = document.querySelector('#input-phone');
+const selectThanhToan = document.querySelector('#select-thanh-toan');
+const buttonSubmit = document.querySelector('.button-submit');
+// const totalCheckout = document.querySelector('.total-checkout');
+
+let checkoutForm = JSON.parse(localStorage.getItem('checkoutForm')) || [];
+
+buttonSubmit.addEventListener('click', (event) => {
+  event.preventDefault();
+  const name = inputName.value.trim();
+  const address = inputAddress.value.trim();
+  const email = inputEmail.value.trim();
+  const phone = inputPhone.value.trim();
+  const thanhToan = selectThanhToan.value.trim();
+  const total = `${totalPrice.toLocaleString('vi-VN')} đ `;
+
+  if (name === '' || address === '' || email === '' || phone === '') {
+    alert('Không được bỏ trống');
+    return;
+  }
+
+  if (phone.length < 10) {
+    alert('Số điện thoại không phù hợp');
+    return;
+  }
+
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  checkoutForm.push({
+    id: "NB" + Date.now(),
+    date: Date.now(),
+    name: name,
+    address: address,
+    email: email,
+    phone: phone,
+    thanhToan: thanhToan,
+    total: total,
+    product : cartItems ,
+  });
+
+  localStorage.setItem('checkoutForm', JSON.stringify(checkoutForm));
+  localStorage.removeItem('cart');
+  alert('Xác Nhận đặt hàng thành công');
+  window.location.href =`order_confirmation.html`
+});
+

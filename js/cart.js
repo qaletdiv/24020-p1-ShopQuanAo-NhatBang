@@ -106,7 +106,9 @@ else {
                                 </div>
                             </div>
                             <div class="quantity-item">
+                                <span class="span-detail minus">-</span>  
                                 <input type="number" class="quantity-cart" name="quantity" min="1" value="${item.quantity}">
+                                <span class="span-detail plus">+</span>
                             </div>
                             <div class="price-item price-cart ">
                                 <span> ${totalPrice.toLocaleString('vi-VN')} đ</span>
@@ -117,6 +119,44 @@ else {
     `
     divContentCart.appendChild(divEl)
   });
+  // cap nhat so luong 
+let updateCart =  JSON.parse(localStorage.getItem('cart'))|| [] ;
+const  contentCartPage =document.querySelectorAll('.content-cart-page')
+function updatedTotalCart() {
+  const  newTotal = updateCart.reduce((total , item) => {
+     const price = item.price.replace(/[^\d]/g, '');
+     return  total += Number(price) * Number(item.quantity);
+  },0);
+  const totalPriceElemnt = document.querySelector('.total-price');
+  if(totalPriceElemnt) {
+    totalPriceElemnt.textContent =`${newTotal.toLocaleString('vi-VN')} đ`;
+  }
+
+} 
+contentCartPage.forEach((cartItem,index) => {
+  const spanMinus = cartItem.querySelector('.minus');
+  const spanPlus = cartItem.querySelector('.plus');
+  const quantityInput = cartItem.querySelector('.quantity-cart');
+
+  spanMinus.addEventListener('click', () => {
+    let current = Number(quantityInput.value) || 1;
+    if (current > 1) {
+      quantityInput.value = current - 1;
+      updateCart[index].quantity = Number(quantityInput.value);
+      localStorage.setItem('cart' ,JSON.stringify(updateCart));
+      updatedTotalCart();
+    }
+  });
+
+  spanPlus.addEventListener('click', () => {
+    let current = Number(quantityInput.value) || 1;
+    quantityInput.value = current + 1;
+    updateCart[index].quantity = Number(quantityInput.value);
+    localStorage.setItem('cart' ,JSON.stringify(updateCart));
+    updatedTotalCart();
+  });
+});
+
   // tinh tong so tien cua san pham
   function tinhTongSoTien(cart) {
     let total = 0
@@ -146,6 +186,15 @@ else {
   <button class="button-checkout-cart">Thanh toán sản phẩm</button>
   `
   cartFormPage.appendChild(divCheckOut);
+  // dăng nhap trước kho vô trang giỏ hàng 
+  const currentUser = localStorage.getItem('currentUser');
+  const pareUser = JSON.parse(currentUser)
+  if (!pareUser) {
+    alert('Bạn phải đăng nhập trước khi vô trang giỏ hàng')
+    window.location.href = 'login.html'
+    // return;
+  }
+
   // remove san pham 
   const buttonDelete = document.querySelectorAll('.button-cart-remove');
   buttonDelete.forEach(button => {
@@ -171,18 +220,18 @@ else {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
         // xoa san pham tren gia dien
         contentCartPage.remove();
-       
-       
+
+
         /// cap nhat lai tong tien khi xoa san pham 
-        const newTotal = updatedCart.reduce((total , item) => {
-          const price =Number(item.price.replace(/[^\d]/g ,''));
-          return total + ( price *  Number(item.quantity));
-        },0)  ;
-        const totalPriceElment = document.querySelector('.total-price') ;
-        if(totalPriceElment){
-          totalPriceElment.textContent =`${newTotal.toLocaleString('vi-VN')} đ`;
+        const newTotal = updatedCart.reduce((total, item) => {
+          const price = Number(item.price.replace(/[^\d]/g, ''));
+          return total + (price * Number(item.quantity));
+        }, 0);
+        const totalPriceElment = document.querySelector('.total-price');
+        if (totalPriceElment) {
+          totalPriceElment.textContent = `${newTotal.toLocaleString('vi-VN')} đ`;
         }
-  
+
 
         // neu khong co san pham gi se hien
         if (updatedCart.length === 0) {
@@ -197,11 +246,12 @@ else {
 
     })
   })
+  //
 
   // chuyen sang trang thanh toan
   const shopPriceContinue = document.querySelector('.price-shop-continue');
-  shopPriceContinue.addEventListener('click',() => {
-    window.location.href =`products.html`
+  shopPriceContinue.addEventListener('click', () => {
+    window.location.href = `products.html`
   })
 
   const buttonCheckoutPage = document.querySelector('.button-checkout-cart')
@@ -210,3 +260,25 @@ else {
     window.location.href = `checkout.html`
   })
 }
+// hien co bao nhieu san pham tren icon gio hang 
+const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const quantityElement = document.querySelector('.update-content-cart');
+
+if (currentUser && quantityElement) {
+  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity), 0);
+
+  if (totalQuantity > 0) {
+    quantityElement.textContent = totalQuantity;
+    quantityElement.classList.remove('hidden');
+  } else {
+    quantityElement.classList.add('hidden');
+  }
+} else {
+  // Ẩn nếu chưa đăng nhập
+  if (quantityElement) {
+    quantityElement.classList.add('hidden');
+  }
+}
+
+//

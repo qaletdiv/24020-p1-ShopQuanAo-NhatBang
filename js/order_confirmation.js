@@ -45,7 +45,12 @@ closeInputFind.addEventListener('blur', () => {
 });
 
 const orderConfirmation = localStorage.getItem('checkoutForm');
-const order = orderConfirmation ? JSON.parse(orderConfirmation) : [];
+const orderParse = orderConfirmation ? JSON.parse(orderConfirmation) : [];
+const currentUser = localStorage.getItem('currentUser');
+const currentUserParse = JSON.parse(currentUser);
+const order = orderParse.filter(item => {
+  return item.emailCurrentUser === currentUserParse.email ;
+});
 
 const sectionOrder = document.querySelector('.section-order');
 
@@ -73,14 +78,25 @@ order.forEach(item => {
 });
 
 order.forEach(item => {
-  const divTotalPrice = document.createElement('div');
-  divTotalPrice.classList.add('total-price');
-  divTotalPrice.innerHTML = `
-      <span>Tổng tiền thanh toán : ${item.total}</span>
-
-      `
-  sectionOrder.appendChild(divTotalPrice)
-
+  if (item.total) {
+    const divTotalPrice = document.createElement('div');
+    divTotalPrice.classList.add('total-price');
+    divTotalPrice.innerHTML = `<span>Tổng tiền thanh toán : ${item.total}</span>`;
+    sectionOrder.appendChild(divTotalPrice);
+  }
 });
 
 
+/// tiep tuc 
+const continueButton = document.querySelector('.continue-cart');
+continueButton.addEventListener('click' ,() => {
+  window.location.href = 'index.html'
+})
+// history 
+const historyButton = document.querySelector('.history-cart');
+historyButton.addEventListener('click' ,() => {
+  window.location.href = 'my-account.html'
+})
+window.addEventListener('beforeunload', function () {
+  localStorage.removeItem('checkoutForm'); 
+});

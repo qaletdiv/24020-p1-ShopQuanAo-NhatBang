@@ -48,7 +48,15 @@ closeInputFind.addEventListener('blur', () => {
 });
 
 const currentCart = localStorage.getItem('cart')
-const cart = currentCart ? JSON.parse(currentCart) : [];
+const cartParse = currentCart ? JSON.parse(currentCart) : [];
+const currentUser = localStorage.getItem('currentUser')
+const currentUserParse = currentUser ? JSON.parse(currentUser) : [] ;
+
+const cart = cartParse.filter(item => {
+  return item.email === currentUserParse.email ;
+})
+
+
 
 // if (!currentCart) {
 //   alert('Ban phai don hang trong gio hang moi truy cap docj')
@@ -104,6 +112,7 @@ const buttonSubmit = document.querySelector('.button-submit');
 // const totalCheckout = document.querySelector('.total-checkout');
 
 let checkoutForm = JSON.parse(localStorage.getItem('checkoutForm')) || [];
+let historyOrder = JSON.parse(localStorage.getItem('historyOrder')) || [];
 
 buttonSubmit.addEventListener('click', (event) => {
   event.preventDefault();
@@ -134,12 +143,28 @@ buttonSubmit.addEventListener('click', (event) => {
     phone: phone,
     thanhToan: thanhToan,
     total: total,
-    product : cartItems ,
+    product : cartItems , 
+    emailCurrentUser : currentUserParse.email
+  });
+    historyOrder.push({
+    id: "NB" + Date.now(),
+    date: Date.now(),
+    name: name,
+    address: address,
+    email: email,
+    phone: phone,
+    thanhToan: thanhToan,
+    total: total,
+    product : cartItems , 
+    emailCurrentUser : currentUserParse.email
   });
 
+
   localStorage.setItem('checkoutForm', JSON.stringify(checkoutForm));
+  localStorage.setItem('historyOrder' ,JSON.stringify(historyOrder));
   localStorage.removeItem('cart');
   alert('Xác Nhận đặt hàng thành công');
   window.location.href =`order_confirmation.html`
 });
 
+///

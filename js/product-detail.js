@@ -176,15 +176,20 @@ loadMoreBtn.addEventListener('click' ,() => {
   loadMoreBtn.classList.add('hidden');
 })
 // khi mìn add to cart thi phải kiểm tra xem đã đăng nhập chưa , nếu chưa thì qua trang đăng nhâp j
+
 const addToCart = document.querySelector('.button-detail');
 addToCart.addEventListener('click', () => {
+  // const user = localStorage.getItem('user')
+  // const userParse = JSON.parse(user);
   const currentUser = localStorage.getItem('currentUser');
-  const pareUser =JSON.parse(currentUser)
-  if( !pareUser) {
+  const parseUser =JSON.parse(currentUser)
+
+  if( !parseUser) {
     alert('Đăng nhập trước khi thêm vào giỏ hàng')
     window.location.href = 'login.html'
     return ;
   } 
+
 
   
   const name = document.querySelector('.name-detail').textContent;
@@ -201,17 +206,20 @@ addToCart.addEventListener('click', () => {
   }
 
 
+
   const newProductCart = {
     id,
     name,
     price,
     sizes: dropSizes,
     quantity,
-    img
+    img,
+    email : parseUser.email
   }
   const cartIndex = cart.find(item => {
-    return item.id === id && item.sizes == dropSizes;
-  })
+  return item.id === id && item.sizes == dropSizes && item.email === parseUser.email;
+});
+
   if (cartIndex) {
     cartIndex.quantity += quantity;
   }

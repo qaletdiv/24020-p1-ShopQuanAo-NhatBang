@@ -47,11 +47,25 @@ closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden')
 });
 // tim kiem san pham 
-
+// dăng nhap trước kho vô trang giỏ hàng 
+const currentUser = localStorage.getItem('currentUser');
+const pareUser = JSON.parse(currentUser)
+if (!pareUser) {
+  alert('Bạn phải đăng nhập trước khi vô trang giỏ hàng')
+  window.location.href = 'login.html'
+  // return;
+}
 /// them san pham vao gio hang
 const currentCart = localStorage.getItem('cart')
-const cart = currentCart ? JSON.parse(currentCart) : [];
+const cartParse = currentCart ? JSON.parse(currentCart) : [];
 const sectionCartRow = document.querySelector('.cart-row');
+
+
+const cart = cartParse.filter(item => {
+  return item.email === pareUser.email;
+});
+console.log("pareUser:", pareUser);
+console.log("email đang lọc:", pareUser.email);
 
 
 if (cart.length === 0) {
@@ -120,42 +134,65 @@ else {
     divContentCart.appendChild(divEl)
   });
   // cap nhat so luong 
-let updateCart =  JSON.parse(localStorage.getItem('cart'))|| [] ;
-const  contentCartPage =document.querySelectorAll('.content-cart-page')
-function updatedTotalCart() {
-  const  newTotal = updateCart.reduce((total , item) => {
-     const price = item.price.replace(/[^\d]/g, '');
-     return  total += Number(price) * Number(item.quantity);
-  },0);
-  const totalPriceElemnt = document.querySelector('.total-price');
-  if(totalPriceElemnt) {
-    totalPriceElemnt.textContent =`${newTotal.toLocaleString('vi-VN')} đ`;
+  // const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
+  let updateCart = cart.filter(item => {
+    return item.email === currentUser.email
+  })
+  
+  const contentCartPage = document.querySelectorAll('.content-cart-page');
+
+  function updatedTotalCart() {
+    const newTotal = updateCart.reduce((total, item) => {
+      const price = item.price.replace(/[^\d]/g, '');
+      return total + Number(price) * Number(item.quantity);
+    }, 0);
+
+    const totalPriceElemnt = document.querySelector('.total-price');
+    if (totalPriceElemnt) {
+      totalPriceElemnt.textContent = `${newTotal.toLocaleString('vi-VN')} đ`;
+    }
+    updateCart.forEach((item, index) => {
+      const price = Number(item.price.replace(/[^\d]/g, ''));
+      const quantity = Number(item.quantity);
+      const totalItem = price * quantity;
+
+      const cartRow = contentCartPage[index];
+      const priceItem = cartRow.querySelector('.price-item');
+
+      if (priceItem) {
+        priceItem.textContent = `${totalItem.toLocaleString('vi-VN')} đ`;
+      }
+    });
+    
+
+
   }
 
-} 
-contentCartPage.forEach((cartItem,index) => {
-  const spanMinus = cartItem.querySelector('.minus');
-  const spanPlus = cartItem.querySelector('.plus');
-  const quantityInput = cartItem.querySelector('.quantity-cart');
+  contentCartPage.forEach((cartItem, index) => {
+    const spanMinus = cartItem.querySelector('.minus');
+    const spanPlus = cartItem.querySelector('.plus');
+    const quantityInput = cartItem.querySelector('.quantity-cart');
 
-  spanMinus.addEventListener('click', () => {
-    let current = Number(quantityInput.value) || 1;
-    if (current > 1) {
-      quantityInput.value = current - 1;
+    spanMinus.addEventListener('click', () => {
+      let current = Number(quantityInput.value) || 1;
+      if (current > 1) {
+        quantityInput.value = current - 1;
+        updateCart[index].quantity = Number(quantityInput.value);
+        localStorage.setItem('cart', JSON.stringify(updateCart));
+        updatedTotalCart();
+      }
+    });
+
+    spanPlus.addEventListener('click', () => {
+      let current = Number(quantityInput.value) || 1;
+      quantityInput.value = current + 1;
       updateCart[index].quantity = Number(quantityInput.value);
-      localStorage.setItem('cart' ,JSON.stringify(updateCart));
+      localStorage.setItem('cart', JSON.stringify(updateCart));
       updatedTotalCart();
-    }
+    });
   });
 
-  spanPlus.addEventListener('click', () => {
-    let current = Number(quantityInput.value) || 1;
-    quantityInput.value = current + 1;
-    updateCart[index].quantity = Number(quantityInput.value);
-    localStorage.setItem('cart' ,JSON.stringify(updateCart));
-    updatedTotalCart();
-  });
-});
 
   // tinh tong so tien cua san pham
   function tinhTongSoTien(cart) {
@@ -186,14 +223,7 @@ contentCartPage.forEach((cartItem,index) => {
   <button class="button-checkout-cart">Thanh toán sản phẩm</button>
   `
   cartFormPage.appendChild(divCheckOut);
-  // dăng nhap trước kho vô trang giỏ hàng 
-  const currentUser = localStorage.getItem('currentUser');
-  const pareUser = JSON.parse(currentUser)
-  if (!pareUser) {
-    alert('Bạn phải đăng nhập trước khi vô trang giỏ hàng')
-    window.location.href = 'login.html'
-    // return;
-  }
+
 
   // remove san pham 
   const buttonDelete = document.querySelectorAll('.button-cart-remove');
@@ -261,12 +291,13 @@ contentCartPage.forEach((cartItem,index) => {
   })
 }
 // hien co bao nhieu san pham tren icon gio hang 
-const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+// const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+
 const quantityElement = document.querySelector('.update-content-cart');
 
 if (currentUser && quantityElement) {
-  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity), 0);
+  const totalQuantity = cart.reduce((total, item) => total + Number(item.quantity), 0);
 
   if (totalQuantity > 0) {
     quantityElement.textContent = totalQuantity;

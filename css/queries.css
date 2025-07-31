@@ -286,7 +286,7 @@
   }
 
   footer {
-    height: 500px;
+    height: 30rem;
   }
 
   .bottom-menu-container a {
@@ -300,4 +300,10 @@
   .bottom-menu-container li {
     font-size: 0.8rem;
   }
+   .open-input{
+        display: none;
+    }
+    .button-cart-quantity {
+        display: none ;
+    }
 }

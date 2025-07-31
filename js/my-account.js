@@ -46,20 +46,35 @@ const closeInputFind = document.querySelector('.input-find');
 closeInputFind.addEventListener('blur', () => {
     closeInputFind.classList.add('hidden')
 });
-const infoUserCheckOut = localStorage.getItem('checkoutForm');
-const infoUsers = infoUserCheckOut ? JSON.parse(infoUserCheckOut) : [];
+const historyOrder = localStorage.getItem('historyOrder');
+const info= historyOrder ? JSON.parse(historyOrder) : [];
+// dnag nhap truoc khi vo trang tai khoang cua toi 
+const currentUser = localStorage.getItem('currentUser');
+const parseUser = JSON.parse(currentUser)
+  if (!parseUser) {
+    alert('Bạn phải đăng nhập trước khi vô trang')
+    window.location.href = 'login.html'
+    // return;
+  }
+
+// loc thoe gmail 
+const inforUsers = info.filter(item => {
+    return item.emailCurrentUser === parseUser.email
+}) 
+
 
 const infoContainer = document.querySelector('.container');
 
-infoUsers.forEach(user => {
+inforUsers.forEach(user => {
     const divElMyAccount = document.createElement('div');
     divElMyAccount.classList.add('div-my-account');
     divElMyAccount.innerHTML = `
                  <div class="info">
                         <h3>Thông tin cá nhân</h3>
                         <div class="content-info">
+                            <p><strong>Email User:</strong> <span id="email">${parseUser.email}</span></p>
                             <p><strong>Họ và tên:</strong> <span id="fullName">${user.name}</span></p>
-                            <p><strong>Email:</strong> <span id="email">${user.email}</span></p>
+                            <p><strong>Email đặt hàng:</strong> <span id="email">${user.email}</span></p>
                         </div>
                     </div>
 
@@ -93,8 +108,8 @@ infoUsers.forEach(user => {
     const deleteBtn = divElMyAccount.querySelector('.delete-account');
 
     deleteBtn.addEventListener('click', () => {
-        const updatedUsers = infoUsers.filter(account => account.email !== user.email);
-        localStorage.setItem('checkoutForm', JSON.stringify(updatedUsers));
+        const updatedUsers = inforUsers.filter(account => account.email !== user.email);
+        localStorage.setItem('historyOrder', JSON.stringify(updatedUsers));
 
         divElMyAccount.remove();
 
@@ -103,14 +118,7 @@ infoUsers.forEach(user => {
     });
 
 });
-// dnag nhap truoc khi vo trang tai khoang cua toi 
-const currentUser = localStorage.getItem('currentUser');
-  const pareUser = JSON.parse(currentUser)
-  if (!pareUser) {
-    alert('Bạn phải đăng nhập trước khi vô trang')
-    window.location.href = 'login.html'
-    // return;
-  }
+
 
 
 

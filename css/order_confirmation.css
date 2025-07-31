@@ -45,4 +45,37 @@
     justify-content: center;
     font-size: 3rem;
     color: rgb(29, 158, 111);
+    /* width: 10rem; */
+}
+.div-continue{
+    width: 110rem;
+    margin: 0px auto;
+    display: flex;
+    gap: 10rem;
+}
+.continue-cart{
+    width: 20rem;
+    height: 3rem;
+    margin-bottom: 10rem;
+    color: black;
+    background-color: rgb(182, 181, 187);
+    border: none;
+    border-radius: 10rem;
+    transition: background-color 0.3s ;
+}
+.continue-cart:hover {
+    background-color: #f05d5d ;
+}
+.history-cart{
+   width: 20rem;
+    height: 3rem;
+    margin-bottom: 10rem;
+    color: black;
+    background-color: rgb(182, 181, 187);
+    border: none;
+    border-radius: 10rem; 
+    transition: background-color 0.3s ;
+}
+.history-cart:hover {
+    background-color: #f05d5d ;
 }

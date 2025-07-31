@@ -236,8 +236,11 @@ inputFind.addEventListener('keydown', (event) => {
 });
 // hien co bao nhieu san pham tren icon gio hang 
 
-const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const cartItems  = cart.filter(item => {
+  return item.email === currentUser.email;
+})
 const quantityElement = document.querySelector('.update-content-cart');
 
 if (currentUser && quantityElement) {
@@ -259,15 +262,13 @@ if (currentUser && quantityElement) {
 const spanLogOut = document.querySelector('.log-out');
 
 spanLogOut.addEventListener('click', () => {
-  const result = confirm("Bạn chắc chắn muốn đăng xuất không")
-  if(result) {
-  localStorage.removeItem('currentUser')
-  Window.location.herf = 'index.html'
+  const result = confirm("Bạn chắc chắn muốn đăng xuất không");
+  if (result) {
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
   }
-  else {
-    return ;
-  }
-})
+});
+
 
 
 

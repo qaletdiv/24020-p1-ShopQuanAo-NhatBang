@@ -287,8 +287,11 @@ priceTang.addEventListener('click', () => {
 
 //
 // hien co bao nhieu san pham tren icon gio hang 
-const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const cartItems = cart.filter(item => {
+  return item.email === currentUser.email
+})
 const quantityElement = document.querySelector('.update-content-cart');
 
 if (currentUser && quantityElement) {

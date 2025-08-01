@@ -168,3 +168,13 @@ buttonSubmit.addEventListener('click', (event) => {
 });
 
 ///
+// dang xuat 
+const spanLogOut = document.querySelector('.log-out');
+
+spanLogOut.addEventListener('click', () => {
+  const result = confirm("Bạn chắc chắn muốn đăng xuất không");
+  if (result) {
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
+  }
+});

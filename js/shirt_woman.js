@@ -1,3 +1,5 @@
+import { imagesList, products } from './products.data.js';
+//
 const openPopup = document.querySelector(".open-popup");
 const navigationPopup = document.querySelector(".navigation-popup");
 const closePopup = document.querySelector(".delete-navigation");
@@ -41,66 +43,65 @@ openInput.addEventListener("click", () => {
 const closeInputFind = document.querySelector('.input-find');
 
 closeInputFind.addEventListener('blur', () => {
-  closeInputFind.classList.add('hidden')
+  closeInputFind.classList.add('hidden');
+  closeInputFind.value = '';
 });
 
-const orderConfirmation = localStorage.getItem('checkoutForm');
-const orderParse = orderConfirmation ? JSON.parse(orderConfirmation) : [];
-const currentUser = localStorage.getItem('currentUser');
-const currentUserParse = JSON.parse(currentUser);
-const order = orderParse.filter(item => {
-  return item.emailCurrentUser === currentUserParse.email ;
-});
+const loadMoreBtn = document.querySelector('#load-more-btn');
+const productMainShirtPage = document.querySelector('.product-shirt-main-page')
+let currenDisplay = 8;
 
-const sectionOrder = document.querySelector('.section-order');
 
-order.forEach(item => {
-  item.product.forEach(prod => {
+// hien thij ta ca san pham 
+function renderProduct(container, start, end) {
+  const showProduct = products.filter(item => {
+    return item.categoryName && item.categoryName.includes('SHIRT WOMAN')
+  }).slice(start, end);
+  showProduct.forEach(item => {
     const divEl = document.createElement('div');
-    divEl.classList.add('div-ordor-page');
-    const price = prod.price.replace(/[^\d]/g, '');
+    divEl.classList.add('product-main');
+    // hien thi sale 
+    let saleHTML = '';
+    if (item.tags) {
+      if (item.tags && item.tags.includes('sale 30%')) {
+        saleHTML = `<div class="sale">sale 30%</div>`;
+      } else if (item.tags && item.tags.includes('sale 40%')) {
+        saleHTML = `<div class="sale">sale 40%</div>`;
+      }
+    }
+    // hien thi gia ca 
+    let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
+    if (item.priceSale < item.price) {
+      priceHTML = `
+      <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
+      <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
+      `
 
-    const totalPrice = Number(prod.quantity) * Number(price);
+    }
     divEl.innerHTML = `
-        <div class="div-confirmation-img">
-            <img src="${prod.img}" alt="">
-            <h2>${prod.name}</h2>
-        </div>
-        <div class="div-confirmation-quantity">
-            <span>x ${prod.quantity}</span>
-        </div>
-        <div class="div-confirmation-price">
-            <span>${totalPrice.toLocaleString('vi-VN')} đ</span>
-        </div>
-      `;
-    sectionOrder.appendChild(divEl);
+      <div class="img_hidden">
+        <a href="product-detail.html?id=${item.id}" class="img_box">
+          <img src="${item.imageURL}" alt="${item.name}" />
+          <div class="product_overlay"></div>
+          ${saleHTML}
+        </a>
+      </div>
+      <a href="product-detail.html?id=${item.id}" class="product_name">${item.name}</a>
+      <div class="money_sale">
+        ${priceHTML}
+      </div>
+    `;
+
+    container.appendChild(divEl);
   });
+}
+// hien thi san pham trang product
+renderProduct(productMainShirtPage, 0, currenDisplay);
+
+loadMoreBtn.addEventListener("click", () => {
+  renderProduct(productMainShirtPage, currenDisplay, products.length);
+  loadMoreBtn.classList.add('hidden')
 });
-
-order.forEach(item => {
-  if (item.total) {
-    const divTotalPrice = document.createElement('div');
-    divTotalPrice.classList.add('total-price');
-    divTotalPrice.innerHTML = `<span>Tổng tiền thanh toán : ${item.total}</span>`;
-    sectionOrder.appendChild(divTotalPrice);
-  }
-});
-
-
-/// tiep tuc 
-const continueButton = document.querySelector('.continue-cart');
-continueButton.addEventListener('click' ,() => {
-  window.location.href = 'index.html'
-})
-// history 
-const historyButton = document.querySelector('.history-cart');
-historyButton.addEventListener('click' ,() => {
-  window.location.href = 'my-account.html'
-})
-window.addEventListener('beforeunload', function () {
-  localStorage.removeItem('checkoutForm'); 
-});
-
 // dang xuat 
 const spanLogOut = document.querySelector('.log-out');
 

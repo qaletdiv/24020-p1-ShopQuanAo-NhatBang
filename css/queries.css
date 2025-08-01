@@ -306,4 +306,7 @@
     .button-cart-quantity {
         display: none ;
     }
+  footer {
+    height: auto;
+  }
 }

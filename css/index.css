@@ -627,7 +627,7 @@ footer {
   font-weight: 800;
   margin: 2rem;
   color: rgb(24, 21, 21);
-  display: flex;
+  /* display: flex; */
   align-items: center;
 }
 

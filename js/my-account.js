@@ -99,23 +99,10 @@ inforUsers.forEach(user => {
     
                             </tbody>
                         </table>
-                        <button class="delete-account">delete</button>
                     </div>
     `;
     infoContainer.appendChild(divElMyAccount);
 
-    ////
-    const deleteBtn = divElMyAccount.querySelector('.delete-account');
-
-    deleteBtn.addEventListener('click', () => {
-        const updatedUsers = inforUsers.filter(account => account.email !== user.email);
-        localStorage.setItem('historyOrder', JSON.stringify(updatedUsers));
-
-        divElMyAccount.remove();
-
-        alert('Đã xoá thông tin người dùng');
-
-    });
 
 });
 
@@ -123,3 +110,13 @@ inforUsers.forEach(user => {
 
 
 // console.log(JSON.parse(localStorage.getItem('checkoutForm')));
+// dang xuat 
+const spanLogOut = document.querySelector('.log-out');
+
+spanLogOut.addEventListener('click', () => {
+  const result = confirm("Bạn chắc chắn muốn đăng xuất không");
+  if (result) {
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
+  }
+});

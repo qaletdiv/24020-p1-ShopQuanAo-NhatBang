@@ -139,7 +139,7 @@ else {
   let updateCart = cart.filter(item => {
     return item.email === currentUser.email
   })
-  
+
   const contentCartPage = document.querySelectorAll('.content-cart-page');
 
   function updatedTotalCart() {
@@ -164,12 +164,12 @@ else {
         priceItem.textContent = `${totalItem.toLocaleString('vi-VN')} đ`;
       }
     });
-    
+
 
 
   }
 
-  contentCartPage.forEach((cartItem, index) => {
+ contentCartPage .forEach((cartItem, index) => {
     const spanMinus = cartItem.querySelector('.minus');
     const spanPlus = cartItem.querySelector('.plus');
     const quantityInput = cartItem.querySelector('.quantity-cart');
@@ -191,6 +191,20 @@ else {
       localStorage.setItem('cart', JSON.stringify(updateCart));
       updatedTotalCart();
     });
+    quantityInput.addEventListener('change', () => {
+      let newValue = Number(quantityInput.value);
+      if (newValue > 1) {
+        updateCart[index].quantity = newValue;
+        localStorage.setItem('cart', JSON.stringify(updateCart));
+        updatedTotalCart();
+      }
+      else {
+        quantityInput.value =1 ;
+        updateCart[index].quantity = 1;
+        localStorage.setItem('cart', JSON.stringify(updateCart));
+        updatedTotalCart();
+      }
+    })
   });
 
 
@@ -312,4 +326,13 @@ if (currentUser && quantityElement) {
   }
 }
 
-//
+// dang xuat 
+const spanLogOut = document.querySelector('.log-out');
+
+spanLogOut.addEventListener('click', () => {
+  const result = confirm("Bạn chắc chắn muốn đăng xuất không");
+  if (result) {
+    localStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
+  }
+});

@@ -263,3 +263,13 @@ spanLogOut.addEventListener('click', () => {
     window.location.href = 'index.html';
   }
 });
+// chuyen account
+const buttonMyAccount = document.querySelector('.btn-my-account');
+buttonMyAccount.addEventListener('click' ,() => {
+  if(pareUser) {
+    window.location.href ='my-account.html'
+  }
+  else {
+    window.location.href = 'register.html'
+  }
+})

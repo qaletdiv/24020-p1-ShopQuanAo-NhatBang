@@ -50,7 +50,6 @@ closeInputFind.addEventListener('blur', () => {
 // 
 // silde-show images 
 
-
 let currentIndex = 0;
 const imgElement = document.querySelector('.img-slideshow');
 function changeImage() {
@@ -238,6 +237,7 @@ inputFind.addEventListener('keydown', (event) => {
 
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
 const cartItems  = cart.filter(item => {
   return item.email === currentUser.email;
 })
@@ -268,6 +268,16 @@ spanLogOut.addEventListener('click', () => {
     window.location.href = 'index.html';
   }
 });
+// chuyen account
+const buttonMyAccount = document.querySelector('.btn-my-account');
+buttonMyAccount.addEventListener('click' ,() => {
+  if(currentUser) {
+    window.location.href ='my-account.html'
+  }
+  else {
+    window.location.href = 'register.html'
+  }
+})
 
 
 

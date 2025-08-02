@@ -46,7 +46,8 @@ closeInputFind.addEventListener('blur', () => {
   closeInputFind.classList.add('hidden');
   closeInputFind.value = '';
 });
-
+const currentUser = localStorage.getItem('currentUser');
+const pareUser = JSON.parse(currentUser)
 const loadMoreBtn = document.querySelector('#load-more-btn');
 const productMainShirtPage = document.querySelector('.product-shirt-main-page')
 let currenDisplay = 8;
@@ -112,3 +113,13 @@ spanLogOut.addEventListener('click', () => {
     window.location.href = 'index.html';
   }
 });
+// chuyen account
+const buttonMyAccount = document.querySelector('.btn-my-account');
+buttonMyAccount.addEventListener('click' ,() => {
+  if(pareUser) {
+    window.location.href ='my-account.html'
+  }
+  else {
+    window.location.href = 'register.html'
+  }
+})

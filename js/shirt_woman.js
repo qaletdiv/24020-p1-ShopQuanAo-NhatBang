@@ -98,6 +98,56 @@ function renderProduct(container, start, end) {
 }
 // hien thi san pham trang product
 renderProduct(productMainShirtPage, 0, currenDisplay);
+// hien thi tiem kiem 
+function renderProductList(container, list) {
+  container.innerHTML = '';
+  list.forEach(item => {
+    const divEl = document.createElement('div');
+    divEl.classList.add('product-main');
+    // hien thi sale 
+    let saleHTML = '';
+    if (item.tags) {
+      if (item.tags && item.tags.includes('sale 30%')) {
+        saleHTML = `<div class="sale">sale 30%</div>`;
+      } else if (item.tags && item.tags.includes('sale 40%')) {
+        saleHTML = `<div class="sale">sale 40%</div>`;
+      }
+    }
+    // hien thi gia ca 
+    let priceHTML = ` <p>${item.price.toLocaleString('vi-VN')}đ</p>`
+    if (item.priceSale < item.price) {
+      priceHTML = `
+      <p>${item.priceSale.toLocaleString('vi-VN')}đ</p>
+      <p class="sale-m">${item.price.toLocaleString('vi-VN')}đ</p>
+      `
+
+    }
+    divEl.innerHTML = `
+      <div class="img_hidden">
+        <a href="product-detail.html?id=${item.id}" class="img_box">
+          <img src="${item.imageURL}" alt="${item.name}" />
+          <div class="product_overlay"></div>
+          ${saleHTML}
+        </a>
+      </div>
+      <a href="product-detail.html?id=${item.id}" class="product_name">${item.name}</a>
+      <div class="money_sale">
+        ${priceHTML}
+      </div>
+    `;
+    container.appendChild(divEl);
+  })
+}
+const inputFind = document.querySelector('.input-find');
+inputFind.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    const searchText = inputFind.value.trim().toLowerCase();
+    const inputNameDrop = products.filter(item =>
+      item.name.toLowerCase().includes(searchText)
+    );
+    renderProductList(productMainShirtPage,inputNameDrop);
+  }
+});
 
 loadMoreBtn.addEventListener("click", () => {
   renderProduct(productMainShirtPage, currenDisplay, products.length);

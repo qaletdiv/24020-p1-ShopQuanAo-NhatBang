@@ -230,7 +230,7 @@ inputFind.addEventListener('keydown', (event) => {
     const inputNameDrop = products.filter(item =>
       item.name.toLowerCase().includes(searchText)
     );
-    renderProductList(productMainShirtPage, inputNameDrop);
+    renderProductList(productMainShirt, inputNameDrop);
   }
 });
 // hien co bao nhieu san pham tren icon gio hang 
@@ -278,6 +278,7 @@ buttonMyAccount.addEventListener('click' ,() => {
     window.location.href = 'register.html'
   }
 })
+
 
 
 

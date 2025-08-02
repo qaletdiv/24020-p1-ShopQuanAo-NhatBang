@@ -181,7 +181,7 @@ spanLogOut.addEventListener('click', () => {
 // chuyen account
 const buttonMyAccount = document.querySelector('.btn-my-account');
 buttonMyAccount.addEventListener('click' ,() => {
-  if(pareUser) {
+  if(currentUserParse) {
     window.location.href ='my-account.html'
   }
   else {

@@ -1,45 +1,45 @@
-import { imagesList, products } from './products.data.js';
-//
-const openPopup = document.querySelector(".open-popup");
-const navigationPopup = document.querySelector(".navigation-popup");
-const closePopup = document.querySelector(".delete-navigation");
-const imgBannerPopup = document.querySelector(".img-banner-overlod-navigation");
-//
-const navigationSit = document.querySelector(".navigation-sit");
-const menuSub = document.querySelector(".menu-sub1");
-const navigationUp = document.querySelector(".navigation-up");
-//nút input tìm kiếm
-const openInput = document.querySelector(".open-input");
-const openInputFind = document.querySelector(".input-find");
+  import { imagesList, products } from './products.data.js';
+  //
+  const openPopup = document.querySelector(".open-popup");
+  const navigationPopup = document.querySelector(".navigation-popup");
+  const closePopup = document.querySelector(".delete-navigation");
+  const imgBannerPopup = document.querySelector(".img-banner-overlod-navigation");
+  //
+  const navigationSit = document.querySelector(".navigation-sit");
+  const menuSub = document.querySelector(".menu-sub1");
+  const navigationUp = document.querySelector(".navigation-up");
+  //nút input tìm kiếm
+  const openInput = document.querySelector(".open-input");
+  const openInputFind = document.querySelector(".input-find");
 
-openPopup.addEventListener("click", () => {
-  navigationPopup.classList.add("navigation-popup--open");
-});
+  openPopup.addEventListener("click", () => {
+    navigationPopup.classList.add("navigation-popup--open");
+  });
 
-closePopup.addEventListener("click", () => {
-  navigationPopup.classList.remove("navigation-popup--open");
-});
-imgBannerPopup.addEventListener("click", () => {
-  navigationPopup.classList.remove("navigation-popup--open");
-});
+  closePopup.addEventListener("click", () => {
+    navigationPopup.classList.remove("navigation-popup--open");
+  });
+  imgBannerPopup.addEventListener("click", () => {
+    navigationPopup.classList.remove("navigation-popup--open");
+  });
 
-//
-navigationSit.addEventListener("click", () => {
-  menuSub.classList.add("menu-sub1--open");
-  navigationSit.classList.add("hidden");
-  navigationUp.classList.remove("hidden");
-});
+  //
+  navigationSit.addEventListener("click", () => {
+    menuSub.classList.add("menu-sub1--open");
+    navigationSit.classList.add("hidden");
+    navigationUp.classList.remove("hidden");
+  });
 
-// })
-navigationUp.addEventListener("click", () => {
-  menuSub.classList.remove("menu-sub1--open");
-  navigationUp.classList.add("hidden");
-  navigationSit.classList.remove("hidden");
-});
-//
-openInput.addEventListener("click", () => {
-  openInputFind.classList.remove("hidden");
-});
+  // })
+  navigationUp.addEventListener("click", () => {
+    menuSub.classList.remove("menu-sub1--open");
+    navigationUp.classList.add("hidden");
+    navigationSit.classList.remove("hidden");
+  });
+  //
+  openInput.addEventListener("click", () => {
+    openInputFind.classList.remove("hidden");
+  });
 const closeInputFind = document.querySelector('.input-find');
 
 closeInputFind.addEventListener('blur', () => {
@@ -149,12 +149,14 @@ const inputFind = document.querySelector('.input-find');
 inputFind.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     const searchText = inputFind.value.trim().toLowerCase();
-    const inputNameDrop = products.filter(item =>
-      item.name.toLowerCase().includes(searchText)
-    );
-    renderProductList(productMainShirtPage,inputNameDrop);
+    if (searchText !== '') {
+      localStorage.setItem('searchKey', searchText); // lưu từ khóa
+      window.location.href = 'find_product.html';      // chuyển trang
+    }
   }
 });
+
+
 // dang xuat 
 const spanLogOut = document.querySelector('.log-out');
 

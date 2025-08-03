@@ -142,10 +142,10 @@ const inputFind = document.querySelector('.input-find');
 inputFind.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     const searchText = inputFind.value.trim().toLowerCase();
-    const inputNameDrop = products.filter(item =>
-      item.name.toLowerCase().includes(searchText)
-    );
-    renderProductList(productMainShirtPage,inputNameDrop);
+    if (searchText !== '') {
+      localStorage.setItem('searchKey', searchText); // lưu từ khóa
+      window.location.href = 'find_product.html';      // chuyển trang
+    }
   }
 });
 

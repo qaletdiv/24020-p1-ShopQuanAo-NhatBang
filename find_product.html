@@ -8,9 +8,10 @@
 
   <link rel="stylesheet" href="css/general.css">
   <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/products.css ">
+  <link rel="stylesheet" href="css/shirt.css">
   <link rel="stylesheet" href="css/queries.css">
-  <link rel="stylesheet" href="css/responsive.products.css">
+  <link rel="stylesheet" href="css/responsive.shirt.css">
+
 
   <title>Document</title>
 </head>
@@ -130,30 +131,9 @@
     </section>
   </header>
   <main class="main-product">
-    <section class="dropdown-product">
-      <div class="search-drop">
-        <input type="text" placeholder="Tìm kiếm sản phẩm" class="input-drop">
-      </div>
-      <div class="category-drop">
-        <select name="" id="select-drop">
-          <option value="all">Tất cả sản phẩm</option>
-          <option class="option-men" value="Nam">Nam</option>
-          <option class="option-women" value="Nu">Nữ</option>
-        </select>
-      </div>
-    </section>
-    <section class="dropdow-price">
-      <select name="price-filter" id="price-filter">
-        <option value="all"> Sản phẩm theo giá </option>
-        <option value="0-200000">0 - 200.000</option>
-        <option value="200000-500000">200.000 - 500.000</option>
-        <option value="500000-700000">500.000 - 700.000</option>
-        <option value="700000-1000000">700.000 - 1.000.000</option>
-        <option value="1000000+">Lớn hơn 1.000.000</option>
-      </select>
-      <button class="price-giam">Giá giảm dần</button>
-      <button class="price-tang">Giá Tăng dần</button>
-    </section>
+    <div class="div-find-pr">
+      <p>Tìm kiếm sản phẩm</p>
+    </div>
     <section class="product-shirt">
       <div class="product-shirt-main-page">
         <!-- <div class="product-main">
@@ -169,143 +149,11 @@
             <p>500,000đ</p>
             <p class="sale-m">700,000đđ</p>
           </div>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt2.jpg" alt="shirt2" />
-              <div class="product_overlay"></div>
-              <div class="sale">sale 30%</div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt men 2</a>
-          <div class="money_sale">
-            <p>500,000đ</p>
-            <p class="sale-m">700,000đđ</p>
-          </div>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt3.jpg" alt="shirt3" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt men 3</a>
-          <p>700,000đ</p>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt4.jpg" alt="shirt4" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt men 4</a>
-          <p>700,000đ</p>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt5.jpg" alt="shirt1" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt women 5</a>
-          <p>300,000đ</p>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt6.jpg" alt="shirt2" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt woman 6</a>
-          <p>700,000đ</p>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt7.jpg" alt="shirt3" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt woman 7</a>
-          <p>700,000đ</p>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt8.jpg" alt="shirt4" />
-              <div class="product_overlay"></div>
-            </a>
-          </div>
-          <a href="" class="product_name">shirt woman 8</a>
-          <p>300,000đ</p>
-        </div>
-
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt9.jpg" alt="shirt1" />
-              <div class="product_overlay"></div>
-              <div class="sale">sale 40%</div>
-            </a>
-          </div>
-          <a href="" class="product_name">weater 9</a>
-          <div class="money_sale">
-            <p>400,000đ</p>
-            <p class="sale-m">700,000đđ</p>
-          </div>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt10.jpg" alt="shirt2" />
-              <div class="product_overlay"></div>
-              <div class="sale">sale 40%</div>
-            </a>
-          </div>
-          <a href="" class="product_name">weater 10</a>
-          <div class="money_sale">
-            <p>400,000đ</p>
-            <p class="sale-m">700,000đđ</p>
-          </div>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt11.jpg" alt="shirt3" />
-              <div class="product_overlay"></div>
-              <div class="sale">sale 40%</div>
-            </a>
-          </div>
-          <a href="" class="product_name">sweater 11</a>
-          <div class="money_sale">
-            <p>400,000đ</p>
-            <p class="sale-m">700,000đđ</p>
-          </div>
-        </div>
-        <div class="product-main">
-          <div class="img_hidden">
-            <a href="" class="img_box">
-              <img src="images/shirt12.jpg" alt="shirt4" />
-              <div class="product_overlay"></div>
-              <div class="sale">sale 40%</div>
-            </a>
-          </div>
-          <a href="" class="product_name">weater 12</a>
-          <div class="money_sale">
-            <p>400,000đ</p>
-            <p class="sale-m">700,000đđ</p>
-          </div> -->
+        </div> -->
+        
       </div>
-      </section>
-      <div class="load-more">
-        <button id="load-more-btn">Hiển thị thêm</button>
-      </div>
-      </div>
+    
+    </section>
   </main>
   <footer>
     <div class="bottom-menu-container ">
@@ -340,7 +188,7 @@
       </div>
     </div>
   </footer>
-  <script type="module" src="js/product.js"></script>
+  <script type="module" src="js/find_product.js"></script>
 </body>
 
 

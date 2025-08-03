@@ -235,7 +235,7 @@ addToCart.addEventListener('click', () => {
 //
 // hien co bao nhieu san pham tren icon gio hang 
 const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const currentUser = JSON.parse(localStorage.getItem('currentUser'))|| [];
 const quantityElement = document.querySelector('.update-content-cart');
 
 if (currentUser && quantityElement) {
@@ -264,9 +264,10 @@ spanLogOut.addEventListener('click', () => {
   }
 });
 // chuyen account
+
 const buttonMyAccount = document.querySelector('.btn-my-account');
 buttonMyAccount.addEventListener('click' ,() => {
-  if(pareUser) {
+  if(currentUser) {
     window.location.href ='my-account.html'
   }
   else {

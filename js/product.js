@@ -289,13 +289,17 @@ priceTang.addEventListener('click', () => {
 // hien co bao nhieu san pham tren icon gio hang 
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const cartItems = cart.filter(item => {
-  return item.email === currentUser.email
-})
+
+let cartItems = [];
+
+if (currentUser) {
+  cartItems = cart.filter(item => item.email === currentUser.email);
+}
+
 const quantityElement = document.querySelector('.update-content-cart');
 
 if (currentUser && quantityElement) {
-  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity  ), 0);
+  const totalQuantity = cartItems.reduce((total, item) => total + Number(item.quantity), 0);
 
   if (totalQuantity > 0) {
     quantityElement.textContent = totalQuantity;
@@ -304,11 +308,11 @@ if (currentUser && quantityElement) {
     quantityElement.classList.add('hidden');
   }
 } else {
-  // Ẩn nếu chưa đăng nhập
   if (quantityElement) {
     quantityElement.classList.add('hidden');
   }
 }
+
 // dang xuat 
 const spanLogOut = document.querySelector('.log-out');
 

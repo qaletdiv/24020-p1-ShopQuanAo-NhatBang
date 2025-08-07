@@ -55,16 +55,18 @@ closeInputFind.addEventListener('blur', () => {
 
 const loadMoreBtn = document.querySelector('#load-more-btn');
 const productMainShirt = document.querySelector('.product-shirt-main')
-const productMainShirtPage = document.querySelector('.product-shirt-main-page')
+// const productMainShirtPage = document.querySelector('.product-shirt-main-page')
 let currenDisplay = 6;
 
 
 
+
+const filterProducts = products.filter(item =>  {
+  return item.tags && item.tags.includes('sale')
+})
 function renderProduct(container ,start, end) {
-  // const showProduct = products.slice(start, end);
-  const showProduct = products.filter((item) => {
-    return item.tags && item.tags.includes('sale')
-  }).slice(start,end)
+
+  const showProduct = filterProducts.slice(start ,end)
   showProduct.forEach(item => {
     const divEl = document.createElement('div');
     divEl.classList.add('product-main');
@@ -110,11 +112,22 @@ function renderProduct(container ,start, end) {
 
     container.appendChild(divEl);
   });
+  if(end >= filterProducts.length){
+    loadMoreBtn.classList.add('hidden')
+  }
 }
 
 
 // hien thi san pham trang index 
 renderProduct(productMainShirt,0, currenDisplay)
+
+loadMoreBtn.addEventListener("click", () => {
+  const prevDisplay = currenDisplay ;
+  currenDisplay += 6
+  renderProduct(productMainShirt,prevDisplay, currenDisplay);
+
+
+}); 
 
 // renderProduct(currenDisplay, products.length);
 

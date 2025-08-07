@@ -120,12 +120,11 @@ const productMainShirtPage = document.querySelector('.product-shirt-main-page')
 let currenDisplay = 6;
 
 
-
+const filterProducts = products.filter(item => {
+   return item.tags && item.tags.includes('noi bat')
+})
 function renderProduct(container, start, end) {
-  // const showProduct = products.slice(start, end);
-  const showProduct = products.filter((item) => {
-    return item.tags && item.tags.includes('noi bat')
-  }).slice(start, end)
+  const showProduct = filterProducts.slice(start, end)
   showProduct.forEach(item => {
     const divEl = document.createElement('div');
     divEl.classList.add('product-main');
@@ -171,6 +170,9 @@ function renderProduct(container, start, end) {
 
     container.appendChild(divEl);
   });
+  if (end >= filterProducts.length) {
+    loadMoreBtn.classList.add('hidden')
+  }
 }
 
 
@@ -180,9 +182,10 @@ renderProduct(productMainShirt, 0, currenDisplay)
 // renderProduct(currenDisplay, products.length);
 
 loadMoreBtn.addEventListener("click", () => {
-  renderProduct(productMainShirt, currenDisplay, products.length);
-  loadMoreBtn.classList.add('hidden')
-
+  const prevDisplay = currenDisplay;
+  currenDisplay += 8
+  renderProduct(productMainShirt  , prevDisplay, currenDisplay);
+  // loadMoreBtn.classList.add('hidden')
 });
 function renderProductList(container, list) {
   container.innerHTML = '';

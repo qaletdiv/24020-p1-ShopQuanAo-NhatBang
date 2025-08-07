@@ -50,14 +50,15 @@ const currentUser = localStorage.getItem('currentUser');
 const pareUser = JSON.parse(currentUser)
 const loadMoreBtn = document.querySelector('#load-more-btn');
 const productMainShirtPage = document.querySelector('.product-shirt-main-page')
-let currenDisplay = 8;
+let currenDisplay = 4;
 
 
 // hien thij ta ca san pham 
+const filterProducts = products.filter(item => {
+  return item.categoryName && item.categoryName.includes('SWEATER')
+})
 function renderProduct(container, start, end) {
-  const showProduct = products.filter(item => {
-    return item.categoryName && item.categoryName.includes('SWEATER')
-  }).slice(start, end);
+  const showProduct = filterProducts.slice(start, end)
   showProduct.forEach(item => {
     const divEl = document.createElement('div');
     divEl.classList.add('product-main');
@@ -95,9 +96,19 @@ function renderProduct(container, start, end) {
 
     container.appendChild(divEl);
   });
+  if (end >= filterProducts.length) {
+    loadMoreBtn.classList.add('hidden')
+  }
 }
 // hien thi san pham trang product
 renderProduct(productMainShirtPage, 0, currenDisplay);
+
+loadMoreBtn.addEventListener("click", () => {
+  const prevDisplay = currenDisplay;
+  currenDisplay += 4 ;
+  renderProduct(productMainShirtPage, prevDisplay, currenDisplay);
+  loadMoreBtn.classList.add('hidden')
+});
 // hien thi tiem kiem 
 function renderProductList(container, list) {
   container.innerHTML = '';
@@ -165,9 +176,9 @@ spanLogOut.addEventListener('click', () => {
 });
 // chuyen account
 const buttonMyAccount = document.querySelector('.btn-my-account');
-buttonMyAccount.addEventListener('click' ,() => {
-  if(pareUser) {
-    window.location.href ='my-account.html'
+buttonMyAccount.addEventListener('click', () => {
+  if (pareUser) {
+    window.location.href = 'my-account.html'
   }
   else {
     window.location.href = 'register.html'
